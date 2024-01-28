@@ -62,7 +62,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
             />
             {isExpanded && (
               <span
-                className={`ml-2 bg-transparent whitespace-nowrap ${
+                className={`ml-2 bg-transparent whitespace-nowrap${
                   isExpanded
                     ? "transition-all duration-300 delay-100"
                     : "hidden"
@@ -91,13 +91,15 @@ const SideNav: React.FC = () => {
       <div
         className={`my-1 px-3 flex justify-center items-center text-center bg-[#0b1642] h-20 `}
       >
-        <Image
-          src={isSidebarExpanded ? OtosumIcon : OIcon}
-          alt={isSidebarExpanded ? "Otosum" : "Otosum"}
-          width={isSidebarExpanded ? 200 : 50}
-          height={isSidebarExpanded ? 20 : 50}
-          className="bg-transparent transition-all duration-300"
-        />
+        <Link href="/">
+          <Image
+            src={isSidebarExpanded ? OtosumIcon : OIcon}
+            alt={isSidebarExpanded ? "Otosum" : "Otosum"}
+            width={isSidebarExpanded ? 200 : 50}
+            height={isSidebarExpanded ? 20 : 50}
+            className="bg-transparent transition-all duration-300"
+          />
+        </Link>{" "}
         {/* dashboard expent and collapse button */}
         <button
           onClick={toggleSidebar}

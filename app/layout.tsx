@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <GlobalStateProvider>
-        <body className={inter.className}>{children}</body>
+        <body className={`${inter.className}`}>{children}</body>
       </GlobalStateProvider>
     </html>
   );

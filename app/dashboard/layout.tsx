@@ -7,7 +7,7 @@ interface Props {
 
 const dashboardLayout = ({ children }: Props) => {
   return (
-    <div className="flex max-w-[1440px]">
+    <div className="flex min-w-[1440px] min-h-[100vh]">
       <SideNavBar />
       <div className="w-full">
         <TopNavBar />

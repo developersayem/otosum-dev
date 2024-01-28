@@ -10,8 +10,8 @@ const page = () => {
   return (
     <div className="min-h-[100vh] w-full">
       {/*SALES INFO SECTION START */}
-      <div className="bg-white p-5 mb-5">
-        <h1 className="text-2xl font-bold p-5">Overview</h1>
+      <div className="bg-white p-5 mb-5 m-5 rounded-2xl ">
+        <h1 className="text-2xl text-black font-bold p-5">Overview</h1>
         <div className="w-full h-full inline-grid lg:grid-cols-3 md:grid-cols-2 gap-8 ">
           <InfoCardCom
             label="Sales"
@@ -38,7 +38,7 @@ const page = () => {
       </div>
       {/*SALES INFO SECTION END  */}
       {/*STORES SECTION START  */}
-      <div className="  p-5">
+      <div className="p-5">
         <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-4 items-center">
           <StoreCardCom
             name="Ramai Mall"
