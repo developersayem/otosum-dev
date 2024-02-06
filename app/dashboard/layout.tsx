@@ -1,5 +1,5 @@
-import SideNavBar from "../components/SideNavBar";
-import TopNavBar from "../components/TopNavBar";
+import SideNavBar from "./SideNavBar";
+import TopNavBar from "./TopNavBar";
 
 interface Props {
   children: React.ReactNode;
@@ -7,7 +7,7 @@ interface Props {
 
 const dashboardLayout = ({ children }: Props) => {
   return (
-    <div className="flex min-w-[1440px] min-h-[100vh]">
+    <div className="flex min-h-[100vh] min-w-[1440px]">
       <SideNavBar />
       <div className="w-full">
         <TopNavBar />

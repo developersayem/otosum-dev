@@ -8,9 +8,12 @@ import { AiOutlineMessage } from "react-icons/ai";
 
 const TopNavBar = () => {
   const { isSidebarExpanded } = useGlobalState();
+  const topWidth = isSidebarExpanded
+    ? "w-40 tablet:w-[70vw] laptop:w-[75vw] desktop:w-[80vw]"
+    : "w-40 tablet:w-[91vw] laptop:w-[94vw] desktop:w-[95vw]";
   return (
     <div
-      className={` navbar flex justify-end items-center px-5 bg-white mb-5 h-20 `}
+      className={` navbar ${topWidth} flex justify-end items-center px-5 bg-white mb-5 h-20 `}
     >
       <div className="dropdown dropdown-end ">
         <div className="flex justify-center items-center">

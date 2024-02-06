@@ -8,7 +8,7 @@ const TableRow: NextComponentType<NextPageContext, {}, Props> = (
 ) => {
   return (
     <>
-      <tr className="border-2 border-[#E9E9E9]">
+      <tr className="border border-[#F2F2F2] py-5">
         <td>
           <div className="flex items-center gap-3">
             <div className="avatar">

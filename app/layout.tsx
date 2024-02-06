@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { GlobalStateProvider } from "./context/GlobalStateContext";
+import { ActiveLinkProvider } from "./context/ActiveLinkContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <GlobalStateProvider>
-        <body className={`${inter.className}`}>{children}</body>
+        <ActiveLinkProvider>
+          <body className={`${inter.className} w-full`}>{children}</body>
+        </ActiveLinkProvider>
       </GlobalStateProvider>
     </html>
   );
