@@ -18,7 +18,9 @@ const page = () => {
             </button>
           </Link>
           <div className="px-5 md:mt-4">
-            <div className="relative w-full lg:max-w-sm">
+            {/* !NEED DROPDOWN CODE */}
+
+            {/* <div className="relative w-full lg:max-w-sm">
               <select className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-black font-bold">
                 <option className="p-2 border-0 ">All Stores</option>
                 <option className="p-2 border-0 ">Ramai Mall</option>
@@ -29,7 +31,7 @@ const page = () => {
               <div className="relative bottom-[1.8rem] left-[7.7rem]">
                 <FaChevronDown />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

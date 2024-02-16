@@ -10,7 +10,8 @@ const page = () => {
         <div className="flex justify-between items-center mb-3">
           <h1 className="text-2xl text-black font-bold p-5">Statistics</h1>
           <div className="px-5 md:mt-4 w-[150px]">
-            <div className="relative lg:max-w-sm">
+            {/* !NEED DROPDOWN CODE */}
+            {/* <div className="relative lg:max-w-sm">
               <select className=" text-md p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-black font-bold">
                 <option className="p-2 border-0 ">Daily</option>
                 <option className="p-2 border-0 ">Monthly</option>
@@ -19,10 +20,10 @@ const page = () => {
               <div className=" absolute top-4 left-20">
                 <FaChevronDown />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
-        <div className="w-full h-full inline-grid lg:grid-cols-5 md:grid-cols-3 gap-8 ">
+        <div className="w-full h-full inline-grid grid-cols-5  gap-8 ">
           <div className="bg-gradient-to-r from-[#454CEA] to-[#5596CF] max-h-28 max-w-72 p-5 flex justify-start items-center rounded-xl text-white font-bold">
             <span>
               <h1 className="text-lg">Total Employees</h1>
@@ -70,7 +71,9 @@ const page = () => {
               </button>
             </Link>
             <div className="px-5 md:mt-4">
-              <div className="relative w-full lg:max-w-sm">
+              {/* !NEED DROPDOWN CODE */}
+
+              {/* <div className="relative w-full lg:max-w-sm">
                 <select className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-black font-bold">
                   <option className="p-2 border-0 ">All Stores</option>
                   <option className="p-2 border-0 ">Ramai Mall</option>
@@ -81,7 +84,7 @@ const page = () => {
                 <div className="relative bottom-[1.8rem] left-[7.7rem]">
                   <FaChevronDown />
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

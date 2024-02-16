@@ -1,5 +1,4 @@
 "use client";
-
 import { useGlobalState } from "../context/GlobalStateContext";
 import Image from "next/image";
 import AvaterIcon from "../../public/avater.png";
@@ -9,18 +8,18 @@ import { AiOutlineMessage } from "react-icons/ai";
 const TopNavBar = () => {
   const { isSidebarExpanded } = useGlobalState();
   const topWidth = isSidebarExpanded
-    ? "w-40 tablet:w-[70vw] laptop:w-[75vw] desktop:w-[80vw]"
+    ? "w-40 tablet:w-[70vw] laptop:w-[75vw] desktop:w-[84vw]"
     : "w-40 tablet:w-[91vw] laptop:w-[94vw] desktop:w-[95vw]";
   return (
     <div
-      className={` navbar ${topWidth} flex justify-end items-center px-5 bg-white mb-5 h-20 `}
+      className={`navbar ${topWidth} flex justify-end items-center px-5 bg-white mb-5 h-20`}
     >
-      <div className="dropdown dropdown-end ">
+      <div className="dropdown dropdown-end">
         <div className="flex justify-center items-center">
-          <div className="mr-5 p-2 text-2xl bg-[#f2f2f2] rounded-full  hover:text-black hover:bg-gradient-to-r hover:from-[#4391fd2b] hover:to-[#00fc4329]">
+          <div className="mr-5 p-2 text-2xl cursor-pointer bg-[#f2f2f2] rounded-full hover:text-black hover:bg-gradient-to-r hover:from-[#4391fd2b] hover:to-[#00fc4329]">
             <FaRegBell />
           </div>
-          <div className="mr-5 p-2 text-2xl bg-[#f2f2f2] rounded-full  hover:text-black hover:bg-gradient-to-r hover:from-[#4391fd48] hover:to-[#00fc4346]">
+          <div className="mr-5 p-2 text-2xl cursor-pointer bg-[#f2f2f2] rounded-full hover:text-black hover:bg-gradient-to-r hover:from-[#4391fd48] hover:to-[#00fc4346]">
             <AiOutlineMessage />
           </div>
           <div className="mr-5 ">
@@ -32,7 +31,7 @@ const TopNavBar = () => {
             role="button"
             className="btn btn-ghost btn-circle avatar"
           >
-            <div className="w-10 rounded-full">
+            <div className="w-10 rounded-full cursor-pointer">
               <Image
                 src={AvaterIcon}
                 alt="avater"
@@ -45,7 +44,7 @@ const TopNavBar = () => {
         </div>
         <ul
           tabIndex={0}
-          className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-white rounded-box w-52 "
+          className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-white rounded-box w-52"
         >
           <li className="hover:text-black hover:bg-gradient-to-r hover:from-[#4391fd2b] hover:to-[#00fc4329] rounded-full">
             <a className="justify-between">

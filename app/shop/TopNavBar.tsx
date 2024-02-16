@@ -6,7 +6,7 @@ import { FaRegBell } from "react-icons/fa";
 import { AiOutlineMessage } from "react-icons/ai";
 
 const TopNavBar = () => {
-  const {isSidebarExpanded } = useGlobalState();
+  const { isSidebarExpanded } = useGlobalState();
 
   const topWidth = isSidebarExpanded
     ? "w-40 tablet:w-[70vw] laptop:w-[75vw] desktop:w-[80vw]"

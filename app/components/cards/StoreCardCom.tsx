@@ -21,7 +21,7 @@ const InfoCardCom: NextComponentType<NextPageContext, {}, Props> = ({
   offlineSales,
 }: Props) => {
   return (
-    <Link href={`shop/${href}`}>
+    <Link href={`/shop/${href}`}>
       <div className="card  bg-white shadow-xl m-5">
         <figure className="px-5 pt-5">
           <Image

@@ -9,7 +9,7 @@ const dashboardLayout = ({ children }: Props) => {
   return (
     <div className="flex min-h-[100vh] min-w-[1440px]">
       <SideNavBar />
-      <div className="w-full">
+      <div className="w-screen">
         <TopNavBar />
         <div>{children}</div>
       </div>

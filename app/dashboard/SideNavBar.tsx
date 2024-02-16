@@ -15,7 +15,6 @@ import { usePathname } from "next/navigation";
 import { useGlobalState } from "../context/GlobalStateContext";
 import { useState } from "react";
 import { Minus } from "lucide-react";
-import { useActiveLink } from "../context/ActiveLinkContext";
 interface MenuItemProps {
   href: string;
   icon: StaticImageData;
@@ -45,7 +44,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   const isActive = pathname === href;
 
   const listItemClasses = `
-  w-full h-12 text-[#9A9898] my-3 font-bold text-sm
+  w-full h-12 text-[#9A9898] font-bold text-sm
   ${
     isActive
       ? "text-white bg-gradient-to-r from-[#4391fd2b] to-[#00fc4329]"
@@ -98,7 +97,7 @@ const DropDownItem: React.FC<MenuItemProps> = ({
   label,
   isExpanded,
 }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const pathname = usePathname();
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
