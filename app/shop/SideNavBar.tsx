@@ -202,6 +202,7 @@ const SideNav: React.FC = () => {
   const salesItems: ItemProps[] = [
     { id: 1, href: "/shop/sales/offline-sales", label: "Offline Sales" },
     { id: 2, href: "/shop/sales/online-sales", label: "Online Sales" },
+    { id: 3, href: "/shop/sales/returns", label: "Returns" },
   ];
   const expensesItems: ItemProps[] = [
     { id: 1, href: "/shop/expenses/expenses-list", label: "Expenses List" },
