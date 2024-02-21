@@ -1,6 +1,6 @@
 import type { NextComponentType, NextPageContext } from "next";
 import { usePosGlobalState } from "../../../../context/PosGlobalStateContext";
-import { Minus, Plus, X, XCircle } from "lucide-react";
+import { Minus, Plus, X } from "lucide-react";
 
 interface Props {}
 

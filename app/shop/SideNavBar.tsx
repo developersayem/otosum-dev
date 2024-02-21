@@ -108,7 +108,6 @@ const DropDownItem: React.FC<DropDownItemProps> = ({
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-  console.log(pathname);
 
   const hoverLineClasses = `
     w-1 h-full
@@ -182,9 +181,7 @@ const DropDownItem: React.FC<DropDownItemProps> = ({
 const SideNav: React.FC = () => {
   const { toggleSidebar, isSidebarExpanded } = useGlobalState();
 
-  const sidebarWidth = isSidebarExpanded
-    ? "tablet:w-[30vw] laptop:w-[25vw] desktop:w-[20vw]"
-    : "tablet:w-[9vw] laptop:w-[6.1vw] desktop:w-[5vw]";
+  const sidebarWidth = isSidebarExpanded ? "w-[20vw]" : "w-[5vw]";
   // const sidebarWidthMd = isSidebarExpanded ? "w-[20vw]" : "w-[4vw]";
   // tablet:bg-red-500 laptop:bg-pink-500 desktop:bg-green-500
   const posItems: ItemProps[] = [

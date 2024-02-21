@@ -49,6 +49,7 @@ const PosGlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const newItem: ItemObject = { ...item, id, quantity: 1 };
       setSelectedItemsArry((prevItems) => [...prevItems, newItem]);
+      console.log(selectedItemsArry);
     }
   };
 

@@ -13,7 +13,7 @@ const shopLayout = ({ children }: Props) => {
       <span className="flex min-h-[100vh] ">
         <SideNavBar />
       </span>
-      <div className="  :w-[80vw]   :w-[80vw]  :w-[80vw]">
+      <div className="">
         <TopNavBar />
         <div>{children}</div>
       </div>
