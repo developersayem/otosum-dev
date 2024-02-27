@@ -14,6 +14,7 @@ interface ItemObject {
   name: string;
   price: number;
   quantity: number;
+  discount: number;
 }
 
 interface PosGlobalState {
@@ -22,8 +23,10 @@ interface PosGlobalState {
 
   selectedItemsArry: ItemObject[];
   addItem: (item: Omit<ItemObject, "id">) => void;
-  increaseQuantity: (id: string) => void;
-  decreaseQuantity: (id: string) => void;
+  increaseQuantity: (id: string, quantity?: number) => void;
+  // increaseQuantity: (id: string) => void;
+  decreaseQuantity: (id: string, quantity?: number) => void;
+  // decreaseQuantity: (id: string) => void;
   removeItem: (id: string) => void;
   clearSelectedItems: () => void;
 }
@@ -49,23 +52,23 @@ const PosGlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const newItem: ItemObject = { ...item, id, quantity: 1 };
       setSelectedItemsArry((prevItems) => [...prevItems, newItem]);
-      console.log(selectedItemsArry);
     }
   };
-
-  const increaseQuantity = (id: string) => {
+  const increaseQuantity = (id: string, quantity?: number) => {
     setSelectedItemsArry((prevItems) =>
       prevItems.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+        item.id === id
+          ? { ...item, quantity: quantity ? quantity : item.quantity + 1 }
+          : item
       )
     );
   };
 
-  const decreaseQuantity = (id: string) => {
+  const decreaseQuantity = (id: string, quantity?: number) => {
     setSelectedItemsArry((prevItems) =>
       prevItems.map((item) =>
-        item.id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
+        item.id === id
+          ? { ...item, quantity: quantity ? quantity : item.quantity - 1 }
           : item
       )
     );

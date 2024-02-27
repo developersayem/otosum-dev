@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <GlobalStateProvider>
         <PosGlobalStateProvider>
-          <body className={`${inter.className} w-full`}>{children}</body>
+          <body className={`${inter.className} `}>{children}</body>
         </PosGlobalStateProvider>
       </GlobalStateProvider>
     </html>

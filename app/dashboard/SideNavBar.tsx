@@ -219,10 +219,7 @@ const DropDownItem: React.FC<MenuItemProps> = ({
 const SideNav: React.FC = () => {
   const { toggleSidebar, isSidebarExpanded } = useGlobalState();
 
-  const sidebarWidth = isSidebarExpanded
-    ? "tablet:w-[30vw] laptop:w-[25vw] desktop:w-[20vw]"
-    : "tablet:w-[9vw] laptop:w-[6.1vw] desktop:w-[5vw]";
-
+  const sidebarWidth = isSidebarExpanded ? "w-[15rem]" : "w-[4rem]";
   return (
     <div
       className={`inset-y-0 left-0 bg-card  bg-[#0b1642] ${sidebarWidth}  transition-all duration-300`}

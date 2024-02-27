@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChevronsUp, Plus, UploadCloud } from "lucide-react";
 import DropDownCom from "./DropDownCom";
+import DatePickerCom from "./DatePickerCom";
 
 interface FileData {
   fileName: string;
@@ -198,23 +199,11 @@ const page = () => {
             {/* 2 Date picker */}
             <div className="flex flex-col gap-4   ">
               <label htmlFor="title">Start Date</label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                placeholder="Date"
-                className="w-[300px] border-2 border-[#BBBABA] rounded-lg py-3 px-5 outline-none bg-transparent focus:border-black"
-              />
+              <DatePickerCom />
             </div>
             <div className="flex flex-col gap-4   ">
               <label htmlFor="amount">End Date</label>
-              <input
-                type="text"
-                id="amount"
-                name="amount"
-                placeholder="Amount"
-                className="w-[300px] border-2 border-[#BBBABA] rounded-lg py-3 px-5 outline-none bg-transparent focus:border-black"
-              />
+              <DatePickerCom />
             </div>
           </div>
         </div>

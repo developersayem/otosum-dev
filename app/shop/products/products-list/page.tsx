@@ -14,14 +14,6 @@ const page = () => {
       <div className="flex justify-between items-center  p-5">
         <h1 className="mb-5 text-black text-2xl font-bold">Products List</h1>
         <div className="flex justify-center items-center">
-          <Link href="/shop/products/add-product">
-            <button className="btn border-0 rounded-xl text-gl  text-white bg-gradient-to-r from-[#00FC44] to-[#438FFD]">
-              <span className="text-lg">
-                <Plus />
-              </span>
-              Add Product
-            </button>
-          </Link>
           <div>
             <DropDownCom defaultValue="Choose Category" items={DropDownData} />
           </div>

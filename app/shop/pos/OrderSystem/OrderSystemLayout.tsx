@@ -5,14 +5,13 @@ import { ChevronDown } from "lucide-react";
 
 interface Props {}
 
-const OrderSystem: NextComponentType<NextPageContext, {}, Props> = (
+const OrderSystemLayout: NextComponentType<NextPageContext, {}, Props> = (
   props: Props
 ) => {
   const { posCategoryData, clearSelectedItems } = usePosGlobalState();
 
   return (
     <div className="bg-white rounded-lg text-black p-5">
-      <div>{posCategoryData}</div>
       <SelectedItemsCom />
       <div>
         <div className="grid grid-cols-2 gap-4 items-center">
@@ -42,4 +41,4 @@ const OrderSystem: NextComponentType<NextPageContext, {}, Props> = (
   );
 };
 
-export default OrderSystem;
+export default OrderSystemLayout;

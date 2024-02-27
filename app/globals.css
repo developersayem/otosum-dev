@@ -13,6 +13,6 @@ body {
   background-color:#f2f2f2;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;
-  min-height: 100vh;
-  min-width: 100vw;
+
+
 }

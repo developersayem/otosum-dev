@@ -39,7 +39,7 @@ const page = () => {
       {/*SALES INFO SECTION END  */}
       {/*STORES SECTION START  */}
       <div className="">
-        <div className="grid grid-cols-4  gap-4 items-center">
+        <div className="grid grid-cols-4 place-content-start gap-5 p-5 ">
           <StoreCardCom
             name="Ramai Mall"
             image={RamaiMallImg}

@@ -181,9 +181,7 @@ const DropDownItem: React.FC<DropDownItemProps> = ({
 const SideNav: React.FC = () => {
   const { toggleSidebar, isSidebarExpanded } = useGlobalState();
 
-  const sidebarWidth = isSidebarExpanded ? "w-[20vw]" : "w-[5vw]";
-  // const sidebarWidthMd = isSidebarExpanded ? "w-[20vw]" : "w-[4vw]";
-  // tablet:bg-red-500 laptop:bg-pink-500 desktop:bg-green-500
+  const sidebarWidth = isSidebarExpanded ? "w-[15rem]" : "w-[4rem]";
   const posItems: ItemProps[] = [
     { id: 1, href: "shop/pos/order", label: "Order" },
     { id: 2, href: "shop/pos/loyalty", label: "Loyalty" },
@@ -214,7 +212,7 @@ const SideNav: React.FC = () => {
   ];
   return (
     <div
-      className={` inset-y-0 left-0 bg-card  bg-[#0b1642]    ${sidebarWidth} transition-all duration-300 w-`}
+      className={` inset-y-0 left-0 bg-card  bg-[#0b1642] ${sidebarWidth} transition-all duration-300`}
     >
       <div
         className={`my-1 px-3 flex justify-center items-center text-center bg-[#0b1642] h-20 `}

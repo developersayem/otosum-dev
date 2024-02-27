@@ -10,6 +10,7 @@ interface Props {
   img: string;
   price: number;
   quantity: number;
+  discount: number;
 }
 
 const FoodCardCom: NextComponentType<NextPageContext, {}, Props> = ({
@@ -18,12 +19,16 @@ const FoodCardCom: NextComponentType<NextPageContext, {}, Props> = ({
   img,
   price,
   quantity,
+  discount,
 }) => {
   const { addItem } = usePosGlobalState(); // Fixed import and hook usage
   // const [posItemData, setPosItemData] = useState<ItemObject[]>([]); // Destructured useState properly
 
   return (
-    <button onClick={() => addItem({ name, price, quantity })} className="">
+    <button
+      onClick={() => addItem({ name, price, quantity, discount })}
+      className=""
+    >
       <Image height={218} width={180} src={img ? img : ""} alt="Shoes" />
       <h1 className="text-lg font-bold p-2 text-start">{name}</h1>
     </button>

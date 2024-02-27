@@ -22,7 +22,7 @@ const InfoCardCom: NextComponentType<NextPageContext, {}, Props> = ({
 }: Props) => {
   return (
     <Link href={`/shop/${href}`}>
-      <div className="card  bg-white shadow-xl m-5">
+      <div className="card  bg-white shadow-xl m-5 w-[250px] h-[450px]">
         <figure className="px-5 pt-5">
           <Image
             src={image}

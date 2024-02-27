@@ -7,9 +7,9 @@ interface Props {
 
 const dashboardLayout = ({ children }: Props) => {
   return (
-    <div className="flex min-h-[100vh] min-w-[1440px]">
+    <div className="flex min-h-[100vh] w-screen ">
       <SideNavBar />
-      <div className="w-screen">
+      <div className="grow">
         <TopNavBar />
         <div>{children}</div>
       </div>

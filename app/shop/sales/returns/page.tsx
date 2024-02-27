@@ -11,8 +11,8 @@ const page = () => {
           Returns List
         </h1>
         <div className="flex justify-center items-center">
-          <Link href="/dashboard/employees-manage/add-employee">
-            <button className="btn border-0 rounded-xl text-gl hover:scale-105 text-white bg-gradient-to-r from-[#00FC44] to-[#438FFD]">
+          <Link href="/shop/sales/returns/add-return">
+            <button className="btn border-0 px-8 rounded-xl text-gl hover:scale-105 text-white bg-gradient-to-r from-[#00FC44] to-[#438FFD]">
               <span className="text-lg">
                 <FaPlus />
               </span>

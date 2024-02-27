@@ -1,12 +1,10 @@
-import type { NextComponentType, NextPageContext } from "next";
+import React from "react";
 import { usePosGlobalState } from "../../../../context/PosGlobalStateContext";
 import { Minus, Plus, X } from "lucide-react";
 
 interface Props {}
 
-const ItemsListCom: NextComponentType<NextPageContext, {}, Props> = (
-  props: Props
-) => {
+const ItemsListCom: React.FC<Props> = () => {
   const {
     selectedItemsArry,
     increaseQuantity,
@@ -14,6 +12,16 @@ const ItemsListCom: NextComponentType<NextPageContext, {}, Props> = (
     removeItem,
     clearSelectedItems,
   } = usePosGlobalState();
+
+  const handleQuantityChange = (
+    id: string,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newQuantity = parseInt(event.target.value);
+    if (!isNaN(newQuantity) && newQuantity >= 1) {
+      increaseQuantity(id, newQuantity);
+    }
+  };
 
   return (
     <div className="">
@@ -38,24 +46,34 @@ const ItemsListCom: NextComponentType<NextPageContext, {}, Props> = (
                 <td>{name}</td>
                 <td>{price}</td>
                 <td className="flex items-center justify-center gap-2">
-                  <button className="bg-blue-500 text text-white rounded-md">
-                    <Minus onClick={() => decreaseQuantity(id)} />
+                  <button
+                    className="bg-blue-500 text text-white rounded-md"
+                    onClick={() => decreaseQuantity(id)}
+                  >
+                    <Minus />
                   </button>
-                  {quantity}
-                  {/* <input
-                    type="text"
+                  <input
+                    type="number"
+                    min="1"
                     value={quantity}
-                    className="bg-transparent border-0 w-3"
-                  /> */}
-                  <button className="bg-blue-500 text-white rounded-md">
-                    <Plus onClick={() => increaseQuantity(id)} />
+                    onChange={(e) => handleQuantityChange(id, e)}
+                    className="w-12 border rounded-md text-center bg-transparent text-black"
+                  />
+                  <button
+                    className="bg-blue-500 text-white rounded-md"
+                    onClick={() => increaseQuantity(id)}
+                  >
+                    <Plus />
                   </button>
                 </td>
                 <td>
                   <div className="flex items-center justify-center gap-2">
                     ${price * quantity}
-                    <button className="bg-red-500 text-white rounded-full">
-                      <X onClick={() => removeItem(id)} />
+                    <button
+                      className="bg-red-500 text-white rounded-full"
+                      onClick={() => removeItem(id)}
+                    >
+                      <X />
                     </button>
                   </div>
                 </td>
