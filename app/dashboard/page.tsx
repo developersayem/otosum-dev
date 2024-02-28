@@ -1,4 +1,4 @@
-import InfoCardCom from "../components/cards/shared/InfoCardCom";
+import InfoCardCom from "../components/cards/InfoCardCom";
 import StoreCardCom from "../components/cards/StoreCardCom";
 import TotalSalesIcon from "../../public/icons/totalsalesicon.svg";
 import RamaiMallImg from "../../public/demoImage/ramai-mall.png";

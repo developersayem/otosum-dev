@@ -1,5 +1,4 @@
 "use client";
-import { useGlobalState } from "../context/GlobalStateContext";
 import Image from "next/image";
 import AvaterIcon from "../../public/avater.png";
 import { FaRegBell } from "react-icons/fa";
