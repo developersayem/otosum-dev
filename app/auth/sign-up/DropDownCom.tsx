@@ -4,7 +4,6 @@ import type { NextComponentType, NextPageContext } from "next";
 import { useState } from "react";
 
 interface Props {
-  defaultValue: string;
   selectedItem: string;
   setSelectedItem: React.Dispatch<React.SetStateAction<string>>;
   items?: {
@@ -14,13 +13,11 @@ interface Props {
 }
 
 const DropDownCom: NextComponentType<NextPageContext, {}, Props> = ({
-  defaultValue,
   items,
   selectedItem,
   setSelectedItem,
 }) => {
   const [open, setOpen] = useState(false);
-  setSelectedItem(defaultValue);
 
   const handleDropdownToggle = (e: any) => {
     e.stopPropagation();
@@ -30,6 +27,7 @@ const DropDownCom: NextComponentType<NextPageContext, {}, Props> = ({
   const handleItemClick = (value: string) => {
     setSelectedItem(value);
     setOpen(false);
+    console.log(selectedItem);
   };
 
   return (
@@ -37,7 +35,7 @@ const DropDownCom: NextComponentType<NextPageContext, {}, Props> = ({
       <button
         type="button" // Add type="button" to prevent form submission
         onClick={handleDropdownToggle}
-        className="flex flex-row justify-between w-[300px] px-2 py-3 text-gray-700 bg-white border-2 border-[#BBBABA] rounded-md  focus:outline-none focus:border-black"
+        className="flex flex-row justify-between w-full px-2 py-3 text-gray-700 bg-white border-2 border-[#BBBABA] rounded-md  focus:outline-none focus:border-black"
       >
         <span className="select-none transition-all duration-300 delay-75">
           {selectedItem}

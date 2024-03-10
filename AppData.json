@@ -1,0 +1,82 @@
+{
+  "createdAt": "date&time",
+  "updatedAt": "date&time",
+  "users": [
+    {
+      "id": 1,
+      "firstName": "john",
+      "lastName": "doe",
+      "email": "johndoe1@example.com",
+      "password": "hashed_password",
+      "role": "owner",
+      "createdAt": "date&time",
+      "updatedAt": "date&time"
+    },
+    {
+      "id": 2,
+      "firstName": "mark",
+      "lastName": "smith",
+      "img": "image.png",
+      "email": "marksmith1@example.com",
+      "password": "hashed_password",
+      "role": "employee",
+      "createdAt": "date&time",
+      "updatedAt": "date&time"
+    }
+  ],
+  "shops": [
+    {
+      "shopId": 1,
+      "shopName": "urban Shop",
+      "createdAt": "date&time",
+      "updatedAt": "date&time",
+      "products": [
+        {
+          "id": 1,
+          "name": "burger",
+          "img": "image.png",
+          "category": "food",
+          "price": 10.99,
+          "brand": "burger brand",
+          "cost": 5.99,
+          "quantity": 100,
+          "description": "Description of Product 1",
+          "tax": 10,
+          "discount": 10,
+          "createdAt": "date&time",
+          "updatedAt": "date&time"
+        }
+      ],
+      "sales": [
+        {
+          "id": 1,
+          "date": "date&time",
+          "deliveryDate": "date&time",
+          "shopName": "urban Shop",
+          "status": "pending",
+          "suppliersName": "suppliers 1",
+          "productName": "burger",
+          "netCost": 640,
+          "quantity": 100,
+          "discount": 10,
+          "tax": 10,
+          "per-pieceCost": 5.99
+        }
+      ],
+      "purchases": [
+        {
+          "id": 1,
+          "name": "burger",
+          "img": "image.png",
+          "price": 10.99,
+          "brand": "burger brand",
+          "cost": 5.99,
+          "quantity": 100,
+          "purchaseDate": "date&time",
+          "description": "Description of Product 1",
+          "files": "files.pdf"
+        }
+      ]
+    }
+  ]
+}

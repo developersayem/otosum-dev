@@ -44,7 +44,7 @@ const page = () => {
             name="Ramai Mall"
             image={RamaiMallImg}
             todaySales={450}
-            href="/pos"
+            href="dashboard"
             onlineSales={120}
             offlineSales={330}
           />
@@ -52,7 +52,7 @@ const page = () => {
             name="Gyu-Kaku"
             image={GyuKakuImg}
             todaySales={450}
-            href="/pos"
+            href="dashboard"
             onlineSales={120}
             offlineSales={330}
           />
@@ -60,7 +60,7 @@ const page = () => {
             name="Urban Shop"
             image={UrbanShopImg}
             todaySales={450}
-            href="/pos"
+            href="dashboard"
             onlineSales={120}
             offlineSales={330}
           />
@@ -68,7 +68,7 @@ const page = () => {
             name="Brooklyn Fare"
             image={BrooklynFareImg}
             todaySales={450}
-            href="/pos"
+            href="dashboard"
             onlineSales={120}
             offlineSales={330}
           />
