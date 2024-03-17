@@ -1,19 +1,16 @@
 {
+  "id": 1,
+  "firstName": "john",
+  "lastName": "doe",
+  "email": "johndoe1@example.com",
+  "password": "hashed_password",
+  "businessName": "urban shop",
+  "role": "owner",
   "createdAt": "date&time",
   "updatedAt": "date&time",
   "users": [
     {
       "id": 1,
-      "firstName": "john",
-      "lastName": "doe",
-      "email": "johndoe1@example.com",
-      "password": "hashed_password",
-      "role": "owner",
-      "createdAt": "date&time",
-      "updatedAt": "date&time"
-    },
-    {
-      "id": 2,
       "firstName": "mark",
       "lastName": "smith",
       "img": "image.png",

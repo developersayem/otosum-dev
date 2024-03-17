@@ -9,11 +9,11 @@ const options: MongoClientOptions = {
 let client: MongoClient;
 let db: Db;
 
-async function connectToDatabase() {
+async function connectToDatabase(dbName: string) {
   if (!client) {
     client = new MongoClient(uri, options);
     await client.connect();
-    db = client.db(process.env.MONGODB_DB!);
+    db = client.db(dbName);
   }
   return { client, db };
 }

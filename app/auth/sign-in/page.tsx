@@ -5,26 +5,59 @@ import Otosum from "../../../public/otosum.svg";
 import Link from "next/link";
 import AuthHeaderCom from "../shared/AuthHeaderCom";
 import { FormEvent } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function signInPage() {
   // Define form submit handler
-  const registerHandler = (e: FormEvent<HTMLFormElement>): void => {
+  const signInHandler = async (
+    e: FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
 
-    const formData = e.target as HTMLFormElement;
+    const formData = new FormData(e.target as HTMLFormElement);
     const data = {
-      email: formData.email.value,
-      password: formData.password.value,
+      businessName: formData.get("businessName") as string,
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
     };
-
     console.log(data);
+    toast.success("Sign In successfully");
+    toast.success(`${data.businessName},${data.email},${data.password}`);
+
+    // try {
+    //   const response = await fetch("/api/users/sign-up", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       businessName: formData.get("businessName") as string,
+    //       email: formData.get("email") as string,
+    //       password: formData.get("password") as string,
+    //     }),
+    //   });
+
+    //   if (response.ok) {
+    //     // Redirect to dashboard upon successful login
+    //     // router.push("/dashboard");
+    //     toast.success("Registered successfully");
+    //   } else {
+    //     setError("Invalid username or password");
+    //   }
+    // } catch (error) {
+    //   console.error("Error logging in:", error);
+    //   setError("An error occurred while logging in");
+    // }
 
     // Reset form
-    formData.reset();
+    // formData.reset();
   };
 
+  // Render page content
   return (
     <div className="min-h-screen min-w-screen bg-white text-black  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-2 justify-start items-center">
+      <Toaster />
+
       {/* LOGO SECTION */}
       {/* <div className="flex justify-center items-center bg-[#0b1542] md:hidden lg:hidden 2xl:hidden">
         <Image
@@ -46,16 +79,25 @@ export default function signInPage() {
           Enter your email and password below
         </p>
         <form
-          onSubmit={registerHandler}
+          onSubmit={signInHandler}
           className="flex flex-col justify-center items-center text-[#a3a1a2]"
         >
+          <div className="w-[350px] lg:w-[400px] mt-5">
+            <label className="text-black font-medium">Business Name</label>
+            <input
+              type="text"
+              placeholder="Business Name"
+              name="businessName"
+              className="input flex-col border border-black w-full bg-transparent mt-1 focus:border-none focus:outline-green-500"
+            />
+          </div>
           <div className="w-[350px] lg:w-[400px] mt-5">
             <label className="text-black font-medium">Email</label>
             <input
               type="text"
               placeholder="example@gmail.com"
               name="email"
-              className="input flex-col border border-black w-full bg-transparent mt-1 focus:border-black focus:outline-black"
+              className="input flex-col border border-black w-full bg-transparent mt-1 focus:border-none focus:outline-green-500"
             />
           </div>
           <div className="w-[350px] lg:w-[400px] mt-5">
@@ -64,7 +106,7 @@ export default function signInPage() {
               type="password"
               name="password"
               placeholder="*******"
-              className="input border border-black w-full mt-1 bg-transparent  focus:border-black focus:outline-black"
+              className="input border border-black w-full mt-1 bg-transparent  focus:border-none focus:outline-green-500"
             />
           </div>
           <div className="flex justify-between items-center w-full  mt-2">
@@ -93,4 +135,7 @@ export default function signInPage() {
       </div>
     </div>
   );
+}
+function setError(arg0: string) {
+  throw new Error("Function not implemented.");
 }

@@ -27,17 +27,16 @@ const DropDownCom: NextComponentType<NextPageContext, {}, Props> = ({
   const handleItemClick = (value: string) => {
     setSelectedItem(value);
     setOpen(false);
-    console.log(selectedItem);
   };
 
   return (
-    <div className="flex-none relative py-2">
+    <div className="flex-none relative py-2 focus:border-black focus:outline-black">
       <button
         type="button" // Add type="button" to prevent form submission
         onClick={handleDropdownToggle}
-        className="flex flex-row justify-between w-full px-2 py-3 text-gray-700 bg-white border-2 border-[#BBBABA] rounded-md  focus:outline-none focus:border-black"
+        className="flex flex-row justify-between w-full px-2 py-3 text-gray-700 bg-white border border-black rounded-md outline-none focus:border-none focus:outline-green-500 "
       >
-        <span className="select-none transition-all duration-300 delay-75">
+        <span className="select-none transition-all duration-300 delay-75 capitalize">
           {selectedItem}
         </span>
         {open ? <ChevronUp /> : <ChevronDown />}
@@ -51,7 +50,7 @@ const DropDownCom: NextComponentType<NextPageContext, {}, Props> = ({
         {items?.map(({ id, value }) => (
           <li
             key={id}
-            className="block px-4 py-2 text-gray-800 hover:bg-gradient-to-r from-[#438FFD] to-[#00FC44] hover:text-white"
+            className="block px-4 py-2 text-gray-800 hover:bg-gradient-to-r from-[#438FFD] to-[#00FC44] hover:text-white capitalize"
             onClick={() => handleItemClick(value)}
           >
             {value}

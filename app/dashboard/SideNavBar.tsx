@@ -3,40 +3,50 @@
 import Image, { StaticImageData } from "next/image";
 import OtosumIcon from "../../public/otosum.svg";
 import OIcon from "../../public/o-icon.svg";
-import DashboardIcon from "../../public/icons/dashboard.svg";
-import ProductsIcon from "../../public/icons/products.svg";
-import EmployeeManagementIcon from "../../public/icons/employ-management.svg";
-import CalendarIcon from "../../public/icons/calendar.svg";
-import ReportsIcon from "../../public/icons/reports.svg";
-import SettingsIcon from "../../public/icons/settings.svg";
+
 import { FaChevronDown, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useGlobalState } from "../context/GlobalStateContext";
 import { useState } from "react";
-import { Minus } from "lucide-react";
+import {
+  Minus,
+  LayoutDashboard,
+  CalendarDays,
+  BarChartBig,
+  Settings,
+  CreditCard,
+  PersonStanding,
+  UserRound,
+} from "lucide-react";
+
 interface MenuItemProps {
   href: string;
-  icon: StaticImageData;
+  Icon: React.ReactNode;
   label: string;
   isExpanded: boolean;
 }
 interface DropDownItemProps {
   href: string;
-  icon: StaticImageData;
+  Icon: React.ReactNode; // Accept any React Node as the icon
   label: string;
   isExpanded: boolean;
+  items?: {
+    id: number;
+    href: string;
+    label: string;
+  }[];
 }
-interface DropDownItemsProps {
+
+interface ItemProps {
   id: number;
   href: string;
   label: string;
-  isExpanded: boolean;
 }
 
 const MenuItem: React.FC<MenuItemProps> = ({
   href,
-  icon,
+  Icon,
   label,
   isExpanded,
 }) => {
@@ -44,7 +54,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   const isActive = pathname === href;
 
   const listItemClasses = `
-  w-full h-12 text-[#9A9898] font-bold text-sm
+   w-full h-12 text-[#9A9898]  font-bold text-sm
   ${
     isActive
       ? "text-white bg-gradient-to-r from-[#4391fd2b] to-[#00fc4329]"
@@ -64,15 +74,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
       <button className="pl-3">
         <Link href={href} passHref>
           <div className="flex items-center justify-start transition-all duration-300">
-            <Image
-              src={icon}
-              alt={label}
-              width={isExpanded ? 24 : 38}
-              height={isExpanded ? 24 : 38}
-              className={`bg-transparent fill-blue-500  text-green-600 hover:filter hover:invert ${
-                isActive ? "filter invert" : ""
-              }`}
-            />
+            {Icon && <span className="flex items-center px-2">{Icon}</span>}
             {isExpanded && (
               <span
                 className={`ml-2 bg-transparent whitespace-nowrap${
@@ -91,19 +93,18 @@ const MenuItem: React.FC<MenuItemProps> = ({
   );
 };
 
-const DropDownItem: React.FC<MenuItemProps> = ({
+const DropDownItem: React.FC<DropDownItemProps> = ({
   href,
-  icon,
+  Icon,
   label,
   isExpanded,
+  items,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const pathname = usePathname();
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-
-  const dropDownItemsClasses = `block px-4  text-[#9A9898] transition-all duration-300 hover:text-white font-bold`;
 
   const hoverLineClasses = `
     w-1 h-full
@@ -116,7 +117,10 @@ const DropDownItem: React.FC<MenuItemProps> = ({
 
   return (
     <li className="">
-      <span className="h-12 flex justify-start items-center m-0 p-0">
+      <Link
+        href={href}
+        className="h-12 flex justify-start items-center m-0 p-0"
+      >
         {isDropdownOpen && <div className={hoverLineClasses}> &nbsp;</div>}
         <button
           onClick={handleDropdownToggle}
@@ -127,15 +131,9 @@ const DropDownItem: React.FC<MenuItemProps> = ({
           }`}
         >
           <div className="flex justify-start items-center">
-            <Image
-              src={icon}
-              alt={label}
-              width={isExpanded ? 24 : 38}
-              height={isExpanded ? 24 : 38}
-              className={`bg-transparent fill-blue-500  text-green-600 hover:filter hover:invert ${
-                isDropdownOpen ? "filter invert" : ""
-              }`}
-            />
+            {Icon && (
+              <span className="flex items-center px-2 text-nowrap">{Icon}</span>
+            )}
             <div className="flex items-center px-2">{isExpanded && label}</div>
             {isExpanded ? (
               <FaChevronDown
@@ -148,68 +146,30 @@ const DropDownItem: React.FC<MenuItemProps> = ({
             )}
           </div>
         </button>
-      </span>
+      </Link>
       {isDropdownOpen && (
-        <ul className="pl-3 text-sm">
-          <li>
-            <Link
-              href="/dashboard/employees-manage"
-              className={dropDownItemsClasses}
-            >
-              <div className="flex justify-start items-center">
-                <span className="p-1">
-                  <Minus size={20} strokeWidth={3} />
-                </span>
-                <span
-                  className={`text-sm ${
-                    pathname === "/dashboard/employees-manage" && " text-white"
-                  }`}
-                >
-                  Timesheet/Report
-                </span>
-              </div>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/dashboard/employees-manage/employees"
-              className={dropDownItemsClasses}
-            >
-              <div className="flex justify-start items-center">
-                <span className="p-1">
-                  <Minus size={20} strokeWidth={3} />
-                </span>
-                <span
-                  className={`text-sm ${
-                    pathname === "/dashboard/employees-manage/employees" &&
-                    " text-white"
-                  }`}
-                >
-                  Employee list
-                </span>
-              </div>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/dashboard/employees-manage/suppliers"
-              className={dropDownItemsClasses}
-            >
-              <div className="flex justify-start items-center">
-                <span className="p-1">
-                  <Minus size={20} strokeWidth={3} />
-                </span>
-                <span
-                  className={`text-sm ${
-                    pathname === "/dashboard/employees-manage/suppliers" &&
-                    " text-white"
-                  }`}
-                >
-                  Supplier list
-                </span>
-              </div>
-            </Link>
-          </li>
+        <ul className="ml-5">
+          {items?.map(({ id, href, label }) => (
+            <li key={id}>
+              <Link
+                href={href}
+                className="block px-4 text-[#9A9898] transition-all duration-300 hover:text-white font-bold"
+              >
+                <div className="flex justify-start items-center hover:scale-105">
+                  <span className="p-1">
+                    <Minus size={20} strokeWidth={3} />
+                  </span>
+                  <span
+                    className={`text-sm scale-100 ${
+                      pathname === href && "text-white"
+                    }`}
+                  >
+                    {label}
+                  </span>
+                </div>
+              </Link>
+            </li>
+          ))}
         </ul>
       )}
     </li>
@@ -220,6 +180,30 @@ const SideNav: React.FC = () => {
   const { toggleSidebar, isSidebarExpanded } = useGlobalState();
 
   const sidebarWidth = isSidebarExpanded ? "w-[15rem]" : "w-[4rem]";
+
+  const EmployeeManagmentItems: ItemProps[] = [
+    {
+      id: 1,
+      href: "/dashboard/employees-manage/employees",
+      label: "Employees",
+    },
+    {
+      id: 2,
+      href: "/dashboard/employees-manage/add-employee",
+      label: "Add Employee",
+    },
+    {
+      id: 3,
+      href: "/dashboard/employees-manage/suppliers",
+      label: "Suppliers",
+    },
+    {
+      id: 4,
+      href: "/dashboard/employees-manage/add-suppliernpm ",
+      label: "Add Suppliers",
+    },
+  ];
+
   return (
     <div
       className={`inset-y-0 left-0 bg-card  bg-[#0b1642] ${sidebarWidth}  transition-all duration-300`}
@@ -262,37 +246,44 @@ const SideNav: React.FC = () => {
           {/* Pass isExpanded to MenuItem component */}
           <MenuItem
             href="/dashboard"
-            icon={DashboardIcon}
+            Icon={<LayoutDashboard />}
             label="Dashboard"
             isExpanded={isSidebarExpanded}
           />
           <DropDownItem
             href="/dashboard/employees-manage"
-            icon={EmployeeManagementIcon}
+            Icon={<UserRound />}
             label="Employee Manage"
             isExpanded={isSidebarExpanded}
+            items={EmployeeManagmentItems}
           />
           <MenuItem
             href="/dashboard/suppliers"
-            icon={ProductsIcon}
+            Icon={<PersonStanding />}
             label="Suppliers"
             isExpanded={isSidebarExpanded}
           />
           <MenuItem
+            href="/dashboard/subscriptions"
+            Icon={<CreditCard />}
+            label="Subscriptions"
+            isExpanded={isSidebarExpanded}
+          />
+          <MenuItem
             href="/dashboard/calendar"
-            icon={CalendarIcon}
+            Icon={<CalendarDays />}
             label="Calendar"
             isExpanded={isSidebarExpanded}
           />
           <MenuItem
             href="/dashboard/reports"
-            icon={ReportsIcon}
+            Icon={<BarChartBig />}
             label="Reports"
             isExpanded={isSidebarExpanded}
           />
           <MenuItem
             href="/dashboard/settings"
-            icon={SettingsIcon}
+            Icon={<Settings />}
             label="Settings"
             isExpanded={isSidebarExpanded}
           />
