@@ -1,9 +1,45 @@
+"use client";
+
+/* eslint-disable react-hooks/rules-of-hooks */
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa6";
 import { FaChevronDown } from "react-icons/fa";
 import TableRow from "./TableRow";
+import { useEffect, useState } from "react";
+import { useBusinessNameContext } from "@/app/context/businessNameContext";
+import SkeletonCom from "@/app/components/shared/SkeletonCom";
 
 const page = () => {
+  const { businessName } = useBusinessNameContext();
+  const [employees, setEmployees] = useState<[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!businessName) {
+          return;
+        }
+        const res = await fetch("/api/dashboard/employees-manage/employees", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ businessName }),
+        });
+
+        if (!res.ok) {
+          console.error("Failed to fetch data:", res.status);
+          return;
+        }
+
+        const data = await res.json();
+        setEmployees(data);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      }
+    };
+    fetchData();
+  }, [businessName]);
   return (
     <div className="p-5 m-5 bg-white rounded-2xl w-ful">
       <div className="flex justify-between items-center mb-5 p-5">
@@ -43,27 +79,20 @@ const page = () => {
               <tr>
                 <th>Name</th>
                 <th>Position</th>
-                <th>Department</th>
+                <th>Shop Name</th>
                 <th>Status</th>
                 <th>Joining Date</th>
                 <th>Email</th>
                 <th>Profile</th>
               </tr>
             </thead>
-            <tbody className="text-black text-md border rounded-lg border-[#F2F2F2]">
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
+            <tbody className="text-black text-md border rounded-lg border-[#F2F2F2] ">
+              {employees.map((employee) => (
+                <TableRow key={1} employee={employee} />
+              ))}
             </tbody>
           </table>
+          {employees.length === 0 && <SkeletonCom />}
         </div>
       </div>
     </div>

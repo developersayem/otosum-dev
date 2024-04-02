@@ -1,6 +1,11 @@
 "use client";
 import React, { useState, FormEvent } from "react";
 import UploadImg from "./UploadImg";
+import toast, { Toaster } from "react-hot-toast";
+import DropDownCom from "./DropDownCom";
+import DatePickerCom from "./DatePikerCom";
+import StoreDropDownCom from "./StoreDropDownCom";
+import { useBusinessNameContext } from "@/app/context/businessNameContext";
 
 interface FileData {
   fileName: string;
@@ -22,275 +27,278 @@ interface FormData {
   city: string;
   postalCode: string;
   password: string;
-  selectedFiles: FileData[];
+  selectedFiles: FileData[]; // Change to array
 }
 
 const AddEmployeesPage: React.FC = () => {
-  const [selectedFiles, setSelectedFiles] = useState<FileData[]>([]);
+  const { businessName } = useBusinessNameContext();
+  const [selectedFile, setSelectedFile] = useState<FileData | null>(null);
+  const [role, setRole] = useState("Select Role");
+  const [status, setStatus] = useState("Select Status");
+  const [date, setDate] = useState<string>("");
+  const [shopName, setShopName] = useState<string | null>("Select Shop Name");
 
-  const handleFileUploadSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleAddEmployee = async (
+    e: FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
-
-    const formData = e.target as HTMLFormElement;
-    const data: FormData = {
-      firstName: formData.firstName.value,
-      lastName: formData.lastName.value,
-      email: formData.email.value,
-      phone: formData.phone.value,
-      branch: formData.branch.value,
-      address: formData.address.value,
-      state: formData.state.value,
-      userName: formData.userName.value,
-      status: formData.status.value,
-      joiningDate: formData.joiningDate.value,
-      city: formData.city.value,
-      postalCode: formData.postalCode.value,
-      password: formData.password.value,
-      selectedFiles,
-      role: formData.employeeRole.value,
-    };
-
-    console.log(data);
-
-    // form reset on submit
-    setSelectedFiles([]);
-    formData.reset();
+    const formData = new FormData(e.target as HTMLFormElement);
+    try {
+      const response = await fetch(
+        "/api/dashboard/employees-manage/add-employee",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            businessName: businessName,
+            firstName: formData.get("firstName") as string,
+            lastName: formData.get("lastName") as string,
+            email: formData.get("email") as string,
+            phone: formData.get("phone") as string,
+            branch: formData.get("branch") as string,
+            address: formData.get("address") as string,
+            state: formData.get("state") as string,
+            shopName: shopName,
+            status: status,
+            joiningDate: date,
+            city: formData.get("city") as string,
+            postalCode: formData.get("postalCode") as string,
+            password: formData.get("password") as string,
+            img: selectedFile,
+            role: role,
+          }),
+        }
+      );
+      if (response.ok) {
+        toast.success("Employee added successfully");
+      } else {
+        toast.error("An error occurred while adding Employee");
+      }
+    } catch (error) {
+      console.error("An error occurred while adding Employee:", error);
+    }
   };
 
   return (
     <div className="p-5 m-5 bg-white rounded-xl">
+      <Toaster />
       <h1 className="text-2xl font-bold text-black">Add Employee</h1>
       <p className="text-[#6C696A]">Create a new employee</p>
-      <form onSubmit={handleFileUploadSubmit} className="text-[#504C4D]">
-        <div className="flex">
+      <form onSubmit={handleAddEmployee} className="text-[#504C4D]">
+        <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 ">
           {/* FROM MAIN SECTIONS START */}
-          <div className="bg-[#F8F8F8] m-5 p-5 w-96 rounded-xl">
-            <UploadImg
-              selectedFiles={selectedFiles}
-              setSelectedFiles={setSelectedFiles}
-            />
-            <div className="py-3">
-              <label
-                className="block   text-sm font-bold mb-1"
-                htmlFor="firstName"
-              >
-                First Name
-              </label>
-              <input
-                type="text"
-                placeholder="Type here"
-                name="firstName"
-                className="input input-bordered w-full max-w-xs bg-transparent"
-              />
-            </div>
-            <div className="py-3">
-              <label
-                className="block   text-sm font-bold mb-1"
-                htmlFor="lastName"
-              >
-                Last Name
-              </label>
-              <input
-                type="text"
-                placeholder="Type here"
-                name="lastName"
-                className="input input-bordered w-full max-w-xs bg-transparent"
-              />
-            </div>
-            <div className="py-3">
-              <label className="block   text-sm font-bold mb-1" htmlFor="email">
-                Email
-              </label>
-              <input
-                type="text"
-                placeholder="Type here"
-                name="email"
-                className="input input-bordered w-full max-w-xs bg-transparent"
-              />
-            </div>
-            <div className="py-3">
-              <label className="block   text-sm font-bold mb-1" htmlFor="phone">
-                Phone
-              </label>
-              <input
-                type="text"
-                name="phone"
-                placeholder="Type here"
-                className="input input-bordered w-full max-w-xs bg-transparent"
-              />
-            </div>
-          </div>
-          {/* FROM MAIN SECTIONS END */}
           <div>
-            <div className="flex">
-              {/* FROM-2 SECTIONS START */}
-              <div className="px-5 py-2">
-                <div className="py-3">
-                  <label
-                    className="block   text-sm font-bold mb-1"
-                    htmlFor="branch"
-                  >
-                    Branch
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Type here"
-                    name="branch"
-                    className="input input-bordered w-full max-w-xs bg-transparent"
-                  />
-                </div>
-                <div className="py-3">
-                  <label
-                    className="block   text-sm font-bold mb-1"
-                    htmlFor="employeeRole"
-                  >
-                    Role (dropdown)
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Type here"
-                    name="employeeRole"
-                    className="input input-bordered w-full max-w-xs bg-transparent"
-                  />
-                </div>
-                <div className="py-3">
-                  <label
-                    className="block   text-sm font-bold mb-1"
-                    htmlFor="address"
-                  >
-                    Address
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Type here"
-                    name="address"
-                    className="input input-bordered w-full max-w-xs bg-transparent"
-                  />
-                </div>
-                <div className="py-3">
-                  <label
-                    className="block   text-sm font-bold mb-1"
-                    htmlFor="state"
-                  >
-                    State
-                  </label>
-                  <input
-                    type="text"
-                    name="state"
-                    placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs bg-transparent"
-                  />
-                </div>
-                <div className="py-3">
-                  <label
-                    className="block   text-sm font-bold mb-1"
-                    htmlFor="userName"
-                  >
-                    Username
-                  </label>
-                  <input
-                    type="text"
-                    name="userName"
-                    placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs bg-transparent"
-                  />
-                </div>
+            <div className="bg-[#F8F8F8] m-5 p-5  rounded-x">
+              <UploadImg
+                selectedFile={selectedFile} // Change here
+                setSelectedFile={setSelectedFile} // Change here
+              />
+              <div className="py-3">
+                <label
+                  className="block   text-sm font-bold mb-1"
+                  htmlFor="firstName"
+                >
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Type here"
+                  name="firstName"
+                  className="input input-bordered w-full bg-transparent"
+                />
               </div>
-              {/* FORM-2 SECTION END */}
-
-              {/* FORM-3 SECTION START */}
-              <div className="px-5 py-2">
-                <div className="py-3">
-                  <label
-                    className="block   text-sm font-bold mb-1"
-                    htmlFor="status"
-                  >
-                    Status (dropdown)
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Type here"
-                    name="status"
-                    className="input input-bordered w-full max-w-xs bg-transparent"
-                  />
-                </div>
-                <div className="py-3">
-                  <label
-                    className="block   text-sm font-bold mb-1"
-                    htmlFor="joiningDate"
-                  >
-                    Joining Date (date)
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Type here"
-                    name="joiningDate"
-                    className="input input-bordered w-full max-w-xs bg-transparent"
-                  />
-                </div>
-                <div className="py-3">
-                  <label
-                    className="block   text-sm font-bold mb-1"
-                    htmlFor="city"
-                  >
-                    City
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Type here"
-                    name="city"
-                    className="input input-bordered w-full max-w-xs bg-transparent"
-                  />
-                </div>
-                <div className="py-3">
-                  <label
-                    className="block   text-sm font-bold mb-1"
-                    htmlFor="postalCode"
-                  >
-                    Postal Code
-                  </label>
-                  <input
-                    type="text"
-                    name="postalCode"
-                    placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs bg-transparent"
-                  />
-                </div>
-                <div className="py-3">
-                  <label
-                    className="block   text-sm font-bold mb-1"
-                    htmlFor="password"
-                  >
-                    Password
-                  </label>
-                  <input
-                    type="text"
-                    name="password"
-                    placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs bg-transparent"
-                  />
-                </div>
+              <div className="py-3">
+                <label
+                  className="block   text-sm font-bold mb-1"
+                  htmlFor="lastName"
+                >
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Type here"
+                  name="lastName"
+                  className="input input-bordered w-full  bg-transparent"
+                />
               </div>
-              {/* FROM-3 SECTIONS END */}
+              <div className="py-3">
+                <label
+                  className="block   text-sm font-bold mb-1"
+                  htmlFor="email"
+                >
+                  Email
+                </label>
+                <input
+                  type="text"
+                  placeholder="Type here"
+                  name="email"
+                  className="input input-bordered w-full  bg-transparent"
+                />
+              </div>
+              <div className="py-3">
+                <label
+                  className="block   text-sm font-bold mb-1"
+                  htmlFor="phone"
+                >
+                  Phone
+                </label>
+                <input
+                  type="text"
+                  name="phone"
+                  placeholder="Type here"
+                  className="input input-bordered w-full  bg-transparent"
+                />
+              </div>
             </div>
-            {/* FORM BUTTON SECTION START */}
-            <div className="flex justify-end items-center mr-5 my-5">
-              <button
-                type="submit"
-                className="btn px-16 mx-5 text-white border-0 bg-gradient-to-r py-2 from-[#438FFD] to-[#00FC44] form-submit"
-              >
-                Save
-              </button>
-              <button
-                type="reset"
-                className="btn bg-transparent   py-0 px-8 border-2 border-[#BBBABA] form-submit"
-                onClick={() => setSelectedFiles([])}
-              >
-                Reset
-              </button>
-            </div>
-            {/* FORM BUTTON SECTION END */}
           </div>
+          {/* FROM Second SECTIONS END */}
+          <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5 px-5">
+            <div className="py-3">
+              <label className="block   text-sm  mb-1" htmlFor="shopName">
+                Shop Name
+              </label>
+              <StoreDropDownCom
+                selectedItem={shopName}
+                setSelectedItem={setShopName}
+              />
+            </div>
+            <div className="py-3">
+              <label className="block text-sm  mb-1" htmlFor="branch">
+                Branch
+              </label>
+              <input
+                type="text"
+                placeholder="Type here"
+                name="branch"
+                className="input input-bordered w-full  bg-transparent"
+              />
+            </div>
+            <div className="py-3">
+              <label className="block   text-sm mb-1" htmlFor="employeeRole">
+                Role
+              </label>
+              <DropDownCom
+                selectedItem={role}
+                setSelectedItem={setRole}
+                items={[
+                  {
+                    id: 1,
+                    value: "admin",
+                  },
+                  {
+                    id: 2,
+                    value: "manager",
+                  },
+                  {
+                    id: 3,
+                    value: "employee",
+                  },
+                ]}
+              />
+            </div>
+            <div className="py-3">
+              <label className="block   text-sm  mb-1" htmlFor="address">
+                Address
+              </label>
+              <input
+                type="text"
+                placeholder="Type here"
+                name="address"
+                className="input input-bordered w-full bg-transparent"
+              />
+            </div>
+            <div className="py-3">
+              <label className="block   text-sm  mb-1" htmlFor="state">
+                State
+              </label>
+              <input
+                type="text"
+                name="state"
+                placeholder="Type here"
+                className="input input-bordered w-full bg-transparent"
+              />
+            </div>
+            <div className="py-3">
+              <label className="block   text-sm mb-1" htmlFor="status">
+                Status
+              </label>
+              <DropDownCom
+                selectedItem={status}
+                setSelectedItem={setStatus}
+                items={[
+                  {
+                    id: 1,
+                    value: "active",
+                  },
+                  {
+                    id: 2,
+                    value: "inactive",
+                  },
+                ]}
+              />
+            </div>
+            <div className="py-3">
+              <label className="block   text-sm  mb-1" htmlFor="joiningDate">
+                Joining Date
+              </label>
+              <DatePickerCom selectedDate={date} setSelectedDate={setDate} />
+            </div>
+            <div className="py-3">
+              <label className="block   text-sm  mb-1" htmlFor="city">
+                City
+              </label>
+              <input
+                type="text"
+                placeholder="Type here"
+                name="city"
+                className="input input-bordered w-full  bg-transparent"
+              />
+            </div>
+            <div className="py-3">
+              <label className="block   text-sm  mb-1" htmlFor="postalCode">
+                Postal Code
+              </label>
+              <input
+                type="text"
+                name="postalCode"
+                placeholder="Type here"
+                className="input input-bordered w-full bg-transparent"
+              />
+            </div>
+            <div className="py-3">
+              <label className="block   text-sm  mb-1" htmlFor="password">
+                Password
+              </label>
+              <input
+                type="text"
+                name="password"
+                placeholder="Type here"
+                className="input input-bordered w-full  bg-transparent"
+              />
+            </div>
+            <div className="col-span-2">
+              <div className="flex sm:justify-start md:justify-start lg:justify-end items-center mr-5 my-5">
+                <button
+                  type="submit"
+                  className="btn px-16 mx-5 text-white border-0 bg-gradient-to-r py-2 from-[#438FFD] to-[#00FC44] form-submit"
+                >
+                  Save
+                </button>
+                <button
+                  type="reset"
+                  className="btn bg-transparent   py-0 px-8 border-2 border-[#BBBABA] form-submit"
+                  onClick={() => setSelectedFile(null)}
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
+          </div>
+          {/* FORM BUTTON SECTION START */}
+
+          {/* FORM BUTTON SECTION END */}
         </div>
       </form>
     </div>

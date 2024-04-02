@@ -7,13 +7,12 @@ interface Props {
 }
 
 const shopLayout = ({ children }: Props) => {
-  //  :bg-red-500   :bg-pink-500   :bg-green-500
   return (
-    <div className="flex min-h-[100vh] min-w-[100vw] ">
-      <span className="flex min-h-[100vh] ">
+    <div className="flex min-h-screen w-full">
+      <span className="flex ">
         <SideNavBar />
       </span>
-      <div className="grow">
+      <div className="grow w-full bg-[#f2f2f2]">
         <TopNavBar />
         <div>{children}</div>
       </div>

@@ -9,7 +9,7 @@ export default function Home() {
           Go client Dashboard
         </button>
       </Link>
-      <Link href="/shop/pos">
+      <Link href="/shop/dashboard">
         <button className="btn rounded-xl text-xl font-bold m-2">
           Go shop Dashboard
         </button>

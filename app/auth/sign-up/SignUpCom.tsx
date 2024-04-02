@@ -33,6 +33,7 @@ const SignUpCom: NextComponentType<NextPageContext, {}, Props> = () => {
           password: formData.get("password") as string,
           businessName: formData.get("businessName") as string,
           category: selectedItem,
+          role: "admin",
         }),
       });
 

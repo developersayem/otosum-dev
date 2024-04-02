@@ -7,9 +7,11 @@ interface Props {
 
 const dashboardLayout = ({ children }: Props) => {
   return (
-    <div className="flex min-h-[100vh] w-screen ">
-      <SideNavBar />
-      <div className="grow">
+    <div className="flex min-h-screen w-full">
+      <span className="flex ">
+        <SideNavBar />
+      </span>
+      <div className="grow w-full bg-[#f2f2f2]">
         <TopNavBar />
         <div>{children}</div>
       </div>

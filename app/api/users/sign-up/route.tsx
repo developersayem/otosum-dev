@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-
-import { MongoClient } from "mongodb";
 import { connectToDatabase } from "../../utils/db";
+import { MongoClient } from "mongodb";
 
-interface User {
+interface IUser {
   name: string;
   email: string;
   businessName: string;
   category: string;
   password: string;
+  role: string;
 }
 const uri = process.env.MONGODB_URI || "mongodb://localhost:27017"; // MongoDB connection string
 const options = {};
@@ -47,12 +47,13 @@ export async function POST(req: NextRequest) {
     );
   }
   // If the user does not exist, create a new user in the database
-  const newUser: User = {
+  const newUser: IUser = {
     name: body.name,
     email: body.email,
     password: body.password,
     businessName: body.businessName,
     category: body.category,
+    role: body.role,
   };
   console.log(newUser);
 

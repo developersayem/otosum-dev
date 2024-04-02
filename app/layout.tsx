@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { GlobalStateProvider } from "./context/GlobalStateContext";
 import { PosGlobalStateProvider } from "./context/PosGlobalStateContext";
+import { BusinessNameContextProvider } from "./context/businessNameContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,11 +19,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <GlobalStateProvider>
-        <PosGlobalStateProvider>
-          <body className={`${inter.className} `}>{children}</body>
-        </PosGlobalStateProvider>
-      </GlobalStateProvider>
+      <BusinessNameContextProvider>
+        <GlobalStateProvider>
+          <PosGlobalStateProvider>
+            <body className={`${inter.className} `}>{children}</body>
+          </PosGlobalStateProvider>
+        </GlobalStateProvider>
+      </BusinessNameContextProvider>
     </html>
   );
 }

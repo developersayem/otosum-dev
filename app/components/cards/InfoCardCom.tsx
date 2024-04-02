@@ -27,9 +27,9 @@ const InfoCardCom: NextComponentType<NextPageContext, {}, Props> = ({
           <span>$</span>
           <span>{amount}</span>
         </div>
-        <p className="font-bold">
+        <div className="font-bold">
           <span>+</span> <span>$</span> <span>{lastAmount}</span>
-        </p>
+        </div>
       </div>
       <figure>
         <Image src={icon} alt="alt" width={100} height={100} />

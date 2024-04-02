@@ -1,4 +1,3 @@
-// context/GlobalStateContext.tsx
 "use client";
 
 import React, {
@@ -9,25 +8,42 @@ import React, {
   SetStateAction,
 } from "react";
 
-interface ItemObject {
-  id: string;
-  name: string;
-  price: number;
+interface IImage {
+  fileImage: string;
+  fileName: string;
+}
+
+interface IProductItem {
+  businessName: string;
+  img: IImage;
+  productId: number;
+  productName: string;
+  category: string;
+  subCategory?: string;
+  brand: string;
+  cost: number;
   quantity: number;
+  discountType: string;
   discount: number;
+  taxType: string;
+  tax: number;
+  price: number;
+  promotionalStatus: string;
+  promotionalPrice?: number;
+  promotionalStartDate?: Date;
+  promotionalEndDate?: Date;
+  description: string;
 }
 
 interface PosGlobalState {
   posCategoryData: string;
   setPosCategoryData: Dispatch<SetStateAction<string>>;
-
-  selectedItemsArry: ItemObject[];
-  addItem: (item: Omit<ItemObject, "id">) => void;
-  increaseQuantity: (id: string, quantity?: number) => void;
-  // increaseQuantity: (id: string) => void;
-  decreaseQuantity: (id: string, quantity?: number) => void;
-  // decreaseQuantity: (id: string) => void;
-  removeItem: (id: string) => void;
+  setSelectedItemsArray: Dispatch<SetStateAction<IProductItem[]>>;
+  selectedItemsArray: IProductItem[];
+  addItem: (item: IProductItem) => void;
+  increaseQuantity: (id: number, quantity?: number) => void; // Corrected type
+  decreaseQuantity: (id: number, quantity?: number) => void; // Corrected type
+  removeItem: (id: number) => void; // Corrected type
   clearSelectedItems: () => void;
 }
 
@@ -38,56 +54,69 @@ const PosGlobalStateContext = createContext<PosGlobalState | undefined>(
 const PosGlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [posCategoryData, setPosCategoryData] = useState<string>("");
-  const [selectedItemsArry, setSelectedItemsArry] = useState<ItemObject[]>([]);
-  const [idCounter, setIdCounter] = useState<number>(0);
+  const [posCategoryData, setPosCategoryData] =
+    useState<string>("all categories");
+  const [selectedItemsArray, setSelectedItemsArray] = useState<IProductItem[]>(
+    []
+  );
 
-  const addItem = (item: Omit<ItemObject, "id">) => {
-    const existingItem = selectedItemsArry.find((i) => i.name === item.name);
-    if (existingItem) {
-      increaseQuantity(existingItem.id);
+  const addItem = (item: IProductItem) => {
+    const existingItemIndex = selectedItemsArray.findIndex(
+      (i) => i.productId === item.productId
+    );
+
+    if (existingItemIndex !== -1) {
+      // If the item already exists, increase its quantity
+      increaseQuantity(item.productId);
+      console.log(selectedItemsArray);
     } else {
-      const id = String(idCounter + 1);
-      setIdCounter((prevCounter) => prevCounter + 1);
-
-      const newItem: ItemObject = { ...item, id, quantity: 1 };
-      setSelectedItemsArry((prevItems) => [...prevItems, newItem]);
+      // If the item does not exist, add it to the selected items array
+      setSelectedItemsArray((prevItems) => [...prevItems, item]);
+      console.log(selectedItemsArray);
     }
   };
-  const increaseQuantity = (id: string, quantity?: number) => {
-    setSelectedItemsArry((prevItems) =>
+
+  const increaseQuantity = (id: number, quantity: number = 1) => {
+    // Corrected type
+    setSelectedItemsArray((prevItems) =>
       prevItems.map((item) =>
-        item.id === id
-          ? { ...item, quantity: quantity ? quantity : item.quantity + 1 }
+        item.productId === id
+          ? { ...item, quantity: item.quantity + quantity }
           : item
       )
     );
   };
 
-  const decreaseQuantity = (id: string, quantity?: number) => {
-    setSelectedItemsArry((prevItems) =>
+  const decreaseQuantity = (id: number, quantity: number = 1) => {
+    // Corrected type
+    setSelectedItemsArray((prevItems) =>
       prevItems.map((item) =>
-        item.id === id
-          ? { ...item, quantity: quantity ? quantity : item.quantity - 1 }
+        item.productId === id
+          ? {
+              ...item,
+              quantity: Math.max(item.quantity - quantity, 0),
+            }
           : item
       )
     );
   };
 
-  const removeItem = (id: string) => {
-    setSelectedItemsArry((prevItems) =>
-      prevItems.filter((item) => item.id !== id)
+  const removeItem = (id: number) => {
+    // Corrected type
+    setSelectedItemsArray((prevItems) =>
+      prevItems.filter((item) => item.productId !== id)
     );
   };
 
   const clearSelectedItems = () => {
-    setSelectedItemsArry([]);
+    setSelectedItemsArray([]);
   };
 
   const value: PosGlobalState = {
     posCategoryData,
     setPosCategoryData,
-    selectedItemsArry,
+    selectedItemsArray,
+    setSelectedItemsArray,
     addItem,
     increaseQuantity,
     decreaseQuantity,

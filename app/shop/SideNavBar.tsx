@@ -31,7 +31,6 @@ interface MenuItemProps {
   isExpanded: boolean;
 }
 interface DropDownItemProps {
-  href: string;
   Icon: React.ReactNode; // Accept any React Node as the icon
   label: string;
   isExpanded: boolean;
@@ -97,7 +96,6 @@ const MenuItem: React.FC<MenuItemProps> = ({
   );
 };
 const DropDownItem: React.FC<DropDownItemProps> = ({
-  href,
   Icon,
   label,
   isExpanded,
@@ -120,10 +118,7 @@ const DropDownItem: React.FC<DropDownItemProps> = ({
 
   return (
     <li className="">
-      <Link
-        href={href}
-        className="h-12 flex justify-start items-center m-0 p-0"
-      >
+      <div className="h-12 flex justify-start items-center m-0 p-0">
         {isDropdownOpen && <div className={hoverLineClasses}> &nbsp;</div>}
         <button
           onClick={handleDropdownToggle}
@@ -149,7 +144,7 @@ const DropDownItem: React.FC<DropDownItemProps> = ({
             )}
           </div>
         </button>
-      </Link>
+      </div>
       {isDropdownOpen && (
         <ul className="ml-5">
           {items?.map(({ id, href, label }) => (
@@ -183,15 +178,16 @@ const SideNav: React.FC = () => {
 
   const sidebarWidth = isSidebarExpanded ? "w-[15rem]" : "w-[4rem]";
   const posItems: ItemProps[] = [
-    { id: 1, href: "shop/pos/order", label: "Order" },
-    { id: 2, href: "shop/pos/loyalty", label: "Loyalty" },
-    { id: 3, href: "shop/pos/discount", label: "Discount" },
-    { id: 4, href: "shop/pos/points", label: "Points" },
-    { id: 4, href: "shop/pos/numpad", label: "Numpad" },
+    { id: 1, href: "/shop/pos/order", label: "Order" },
+    { id: 2, href: "/shop/pos/loyalty", label: "Loyalty" },
+    { id: 3, href: "/shop/pos/discount", label: "Discount" },
+    { id: 4, href: "/shop/pos/points", label: "Points" },
+    { id: 4, href: "/shop/pos/numpad", label: "Numpad" },
   ];
   const productsItems: ItemProps[] = [
     { id: 1, href: "/shop/products/products-list", label: "Products List" },
     { id: 2, href: "/shop/products/add-product", label: "Add Product" },
+    { id: 3, href: "/shop/products/category", label: "Categories" },
   ];
   const inventoryItems: ItemProps[] = [
     { id: 1, href: "", label: "Products" },
@@ -205,10 +201,12 @@ const SideNav: React.FC = () => {
   const expensesItems: ItemProps[] = [
     { id: 1, href: "/shop/expenses/expenses-list", label: "Expenses List" },
     { id: 2, href: "/shop/expenses/add-expenses", label: "Add Expenses" },
+    { id: 3, href: "/shop/expenses/category", label: "Categories" },
   ];
   const purchaseItems: ItemProps[] = [
-    { id: 1, href: "/shop/purchase/purchase-list", label: "Purchase List" },
-    { id: 2, href: "/shop/purchase/add-purchase", label: "Add Purchase" },
+    { id: 1, href: "/shop/purchases/purchase-list", label: "Purchase List" },
+    { id: 2, href: "/shop/purchases/add-purchase", label: "Add Purchase" },
+    { id: 3, href: "/shop/purchases/category", label: "Categories" },
   ];
   return (
     <div
@@ -217,7 +215,7 @@ const SideNav: React.FC = () => {
       <div
         className={`my-1 px-3 flex justify-center items-center text-center bg-[#0b1642] h-20 `}
       >
-        <Link href="/">
+        <div onClick={toggleSidebar}>
           <Image
             src={isSidebarExpanded ? OtosumIcon : OIcon}
             alt={isSidebarExpanded ? "Otosum" : "Otosum"}
@@ -225,22 +223,8 @@ const SideNav: React.FC = () => {
             height={isSidebarExpanded ? 20 : 50}
             className="bg-transparent transition-all duration-300"
           />
-        </Link>
+        </div>
         {/* dashboard expent and collapse button */}
-        <button
-          onClick={toggleSidebar}
-          className={`fixed ${
-            isSidebarExpanded ? "left-22" : "left-3.7"
-          } bottom-5 transition-all duration-300`}
-        >
-          <div className="bg-[#5c6280] w-10 h-10 rounded-full flex justify-center items-center">
-            {isSidebarExpanded ? (
-              <FaChevronLeft className="text-white bg-transparent" />
-            ) : (
-              <FaChevronRight className="text-white bg-transparent" />
-            )}
-          </div>
-        </button>
       </div>
       {isSidebarExpanded && (
         <h1 className="py-5 mt-5 px-5 text-md bg-transparent text-[#9A9898] transition-all duration-300 uppercase">
@@ -257,7 +241,6 @@ const SideNav: React.FC = () => {
             isExpanded={isSidebarExpanded}
           />
           <DropDownItem
-            href="/shop/pos"
             Icon={<Box />}
             label="POS"
             isExpanded={isSidebarExpanded}
@@ -265,34 +248,30 @@ const SideNav: React.FC = () => {
           />
 
           <DropDownItem
-            href="/shop/products/products-list"
             Icon={<Layers3 />}
             label="Products"
             isExpanded={isSidebarExpanded}
             items={productsItems}
           />
-          <MenuItem
+          {/* <MenuItem
             href="/shop/print-Barcode"
             Icon={<Barcode />}
             label="Print Barcode"
             isExpanded={isSidebarExpanded}
-          />
-          <DropDownItem
-            href="/shop/inventory"
+          /> */}
+          {/* <DropDownItem
             Icon={<Store />}
             label="Inventory"
             isExpanded={isSidebarExpanded}
             items={inventoryItems}
-          />
+          /> */}
           <DropDownItem
-            href="/shop/sales/sales-list"
             Icon={<BadgeDollarSign />}
             label="Sales"
             isExpanded={isSidebarExpanded}
             items={salesItems}
           />
           <DropDownItem
-            href="/shop/purchase/purchase-list"
             Icon={<Briefcase />}
             // <BaggageClaim />
             label="Purchase"
@@ -300,14 +279,12 @@ const SideNav: React.FC = () => {
             items={purchaseItems}
           />
           <DropDownItem
-            href="/shop/expenses/expenses-list"
             Icon={<MenuSquare />}
             label="Expenses"
             isExpanded={isSidebarExpanded}
             items={expensesItems}
           />
           <DropDownItem
-            href="/shop/employee-manage"
             Icon={<UsersRound />}
             label="Employee Manage"
             isExpanded={isSidebarExpanded}
@@ -319,7 +296,6 @@ const SideNav: React.FC = () => {
             isExpanded={isSidebarExpanded}
           />
           <DropDownItem
-            href="/shop/reports"
             Icon={<BarChartBig />}
             label="Reports"
             isExpanded={isSidebarExpanded}

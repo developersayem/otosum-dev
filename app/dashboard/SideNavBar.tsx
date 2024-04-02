@@ -18,6 +18,7 @@ import {
   CreditCard,
   PersonStanding,
   UserRound,
+  Store,
 } from "lucide-react";
 
 interface MenuItemProps {
@@ -27,7 +28,6 @@ interface MenuItemProps {
   isExpanded: boolean;
 }
 interface DropDownItemProps {
-  href: string;
   Icon: React.ReactNode; // Accept any React Node as the icon
   label: string;
   isExpanded: boolean;
@@ -94,7 +94,6 @@ const MenuItem: React.FC<MenuItemProps> = ({
 };
 
 const DropDownItem: React.FC<DropDownItemProps> = ({
-  href,
   Icon,
   label,
   isExpanded,
@@ -117,10 +116,7 @@ const DropDownItem: React.FC<DropDownItemProps> = ({
 
   return (
     <li className="">
-      <Link
-        href={href}
-        className="h-12 flex justify-start items-center m-0 p-0"
-      >
+      <div className="h-12 flex justify-start items-center m-0 p-0">
         {isDropdownOpen && <div className={hoverLineClasses}> &nbsp;</div>}
         <button
           onClick={handleDropdownToggle}
@@ -146,7 +142,7 @@ const DropDownItem: React.FC<DropDownItemProps> = ({
             )}
           </div>
         </button>
-      </Link>
+      </div>
       {isDropdownOpen && (
         <ul className="ml-5">
           {items?.map(({ id, href, label }) => (
@@ -180,29 +176,6 @@ const SideNav: React.FC = () => {
   const { toggleSidebar, isSidebarExpanded } = useGlobalState();
 
   const sidebarWidth = isSidebarExpanded ? "w-[15rem]" : "w-[4rem]";
-
-  const EmployeeManagmentItems: ItemProps[] = [
-    {
-      id: 1,
-      href: "/dashboard/employees-manage/employees",
-      label: "Employees",
-    },
-    {
-      id: 2,
-      href: "/dashboard/employees-manage/add-employee",
-      label: "Add Employee",
-    },
-    {
-      id: 3,
-      href: "/dashboard/employees-manage/suppliers",
-      label: "Suppliers",
-    },
-    {
-      id: 4,
-      href: "/dashboard/employees-manage/add-suppliernpm ",
-      label: "Add Suppliers",
-    },
-  ];
 
   return (
     <div
@@ -251,18 +224,55 @@ const SideNav: React.FC = () => {
             isExpanded={isSidebarExpanded}
           />
           <DropDownItem
-            href="/dashboard/employees-manage"
+            Icon={<Store />}
+            label="Stores"
+            isExpanded={isSidebarExpanded}
+            items={[
+              {
+                id: 1,
+                href: "/dashboard/stores",
+                label: "Stores",
+              },
+              {
+                id: 2,
+                href: "/dashboard/stores/add-store",
+                label: "Add Store",
+              },
+            ]}
+          />
+          <DropDownItem
             Icon={<UserRound />}
             label="Employee Manage"
             isExpanded={isSidebarExpanded}
-            items={EmployeeManagmentItems}
+            items={[
+              {
+                id: 0,
+                href: "/dashboard/employees-manage",
+                label: "Statistics",
+              },
+              {
+                id: 1,
+                href: "/dashboard/employees-manage/employees",
+                label: "Employees",
+              },
+              {
+                id: 2,
+                href: "/dashboard/employees-manage/add-employee",
+                label: "Add Employee",
+              },
+              {
+                id: 3,
+                href: "/dashboard/employees-manage/suppliers",
+                label: "Suppliers",
+              },
+              {
+                id: 4,
+                href: "/dashboard/employees-manage/add-supplier ",
+                label: "Add Suppliers",
+              },
+            ]}
           />
-          <MenuItem
-            href="/dashboard/suppliers"
-            Icon={<PersonStanding />}
-            label="Suppliers"
-            isExpanded={isSidebarExpanded}
-          />
+
           <MenuItem
             href="/dashboard/subscriptions"
             Icon={<CreditCard />}

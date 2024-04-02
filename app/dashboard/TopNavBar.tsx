@@ -1,17 +1,32 @@
 "use client";
-import { useGlobalState } from "../context/GlobalStateContext";
 import Image from "next/image";
 import AvaterIcon from "../../public/avater.png";
 import { FaRegBell } from "react-icons/fa";
 import { AiOutlineMessage } from "react-icons/ai";
+import Link from "next/link";
+import { X, Grip, ShoppingCart } from "lucide-react";
+import { usePathname } from "next/navigation";
+import CalculatorLayoutCom from "../components/Calculator/CalculatorLayoutCom";
 
 const TopNavBar = () => {
-  const { isSidebarExpanded } = useGlobalState();
-  // const topWidth = isSidebarExpanded ? "w-[84vw]" : "w-[95vw]";
+  const path = usePathname();
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
   return (
     <div
-      className={`navbar flex justify-end items-center px-5 bg-white mb-5 h-20`}
+      className={`navbar flex justify-end items-center px-5 bg-white mb-5 h-20 `}
     >
+      {/* {path === "/shop/pos" ? (
+        <CalculatorLayoutCom />
+      ) : (
+        <Link href="/shop/pos" className="mr-5">
+          <button className="btn border-0 rounded-xl text-gl hover:scale-105 text-white bg-gradient-to-r from-[#00FC44] to-[#438FFD]">
+            <span className="text-lg font-extrabold">
+              <ShoppingCart />
+            </span>
+            POS
+          </button>
+        </Link>
+      )} */}
       <div className="dropdown dropdown-end">
         <div className="flex justify-center items-center">
           <div className="mr-5 p-2 text-2xl cursor-pointer bg-[#f2f2f2] rounded-full hover:text-black hover:bg-gradient-to-r hover:from-[#4391fd2b] hover:to-[#00fc4329]">
@@ -21,8 +36,10 @@ const TopNavBar = () => {
             <AiOutlineMessage />
           </div>
           <div className="mr-5 ">
-            <h1 className="font-bold">Thomas Anree</h1>
-            <h2 className="text-[#6C696A] text-md">@thomas.an</h2>
+            <h1 className="font-bold capitalize text-lg text-black">
+              {user?.name}
+            </h1>
+            <h2 className=" text-md capitalize text-green-500">{user?.role}</h2>
           </div>
           <div
             tabIndex={0}

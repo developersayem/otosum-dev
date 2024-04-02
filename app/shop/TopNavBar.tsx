@@ -4,16 +4,16 @@ import AvaterIcon from "../../public/avater.png";
 import { FaRegBell } from "react-icons/fa";
 import { AiOutlineMessage } from "react-icons/ai";
 import Link from "next/link";
-import { ShoppingCart } from "lucide-react";
+import { X, Grip, ShoppingCart } from "lucide-react";
 import { usePathname } from "next/navigation";
 import CalculatorLayoutCom from "../components/Calculator/CalculatorLayoutCom";
 
 const TopNavBar = () => {
   const path = usePathname();
-
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
   return (
     <div
-      className={`navbar flex justify-end items-center px-5 bg-white mb-5 h-20`}
+      className={`navbar flex justify-end items-center px-5 bg-white mb-5 h-20 `}
     >
       {path === "/shop/pos" ? (
         <CalculatorLayoutCom />
@@ -36,8 +36,10 @@ const TopNavBar = () => {
             <AiOutlineMessage />
           </div>
           <div className="mr-5 ">
-            <h1 className="font-bold">Thomas Anree</h1>
-            <h2 className="text-[#6C696A] text-md">@thomas.an</h2>
+            <h1 className="font-bold capitalize text-lg text-black">
+              {user?.name}
+            </h1>
+            <h2 className=" text-md capitalize text-green-500">{user?.role}</h2>
           </div>
           <div
             tabIndex={0}

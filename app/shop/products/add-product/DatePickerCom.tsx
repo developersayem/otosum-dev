@@ -1,26 +1,31 @@
-"use client";
-
 import { DatePicker } from "antd";
 import type { NextComponentType, NextPageContext } from "next";
-import { useState } from "react";
 
-interface Props {}
+interface Props {
+  date: string | null;
+  setDate: React.Dispatch<React.SetStateAction<string>>;
+}
 
-const DatePickerCom: NextComponentType<NextPageContext, {}, Props> = (
-  props: Props
-) => {
-  const [date, setDate] = useState<Date | null>(null);
-
-  const onChange = (date: Date | null, dateString: string | string[]) => {
-    if (date && typeof dateString === "string") {
-      setDate(date);
+const DatePickerCom: NextComponentType<NextPageContext, {}, Props> = ({
+  date,
+  setDate,
+}) => {
+  const onChangeDate = (date: any, dateString: string | string[]) => {
+    if (date) {
+      if (typeof dateString === "string") {
+        // If dateString is a string
+        setDate(dateString); // Set the selected date as a string
+      } else if (Array.isArray(dateString) && dateString.length > 0) {
+        // If dateString is an array of strings, use the first element
+        setDate(dateString[0]);
+      }
     }
   };
 
   return (
     <DatePicker
-      onChange={onChange}
-      className="w-[300px] border-2 border-[#BBBABA] rounded-lg py-3 px-5 outline-none bg-transparent focus:border-black"
+      onChange={onChangeDate}
+      className="w-full border-2 border-[#BBBABA] rounded-lg py-3 px-5 outline-none bg-transparent focus:border-black"
     />
   );
 };
