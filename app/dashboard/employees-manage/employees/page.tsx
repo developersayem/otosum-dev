@@ -8,10 +8,32 @@ import TableRow from "./TableRow";
 import { useEffect, useState } from "react";
 import { useBusinessNameContext } from "@/app/context/businessNameContext";
 import SkeletonCom from "@/app/components/shared/SkeletonCom";
-
+interface FileData {
+  fileName: string;
+  fileImage: string;
+}
+interface IEmployee {
+  businessName: string;
+  employeeId: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  branch: string;
+  role: string;
+  address: string;
+  state: string;
+  shopName: string;
+  status: string;
+  joiningDate: string;
+  city: string;
+  postalCode: string;
+  password: string;
+  img: FileData;
+}
 const page = () => {
   const { businessName } = useBusinessNameContext();
-  const [employees, setEmployees] = useState<[]>([]);
+  const [employees, setEmployees] = useState<IEmployee[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,6 +55,7 @@ const page = () => {
         }
 
         const data = await res.json();
+        console.log(data);
         setEmployees(data);
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -88,7 +111,7 @@ const page = () => {
             </thead>
             <tbody className="text-black text-md border rounded-lg border-[#F2F2F2] ">
               {employees.map((employee) => (
-                <TableRow key={1} employee={employee} />
+                <TableRow key={employee.employeeId} employee={employee} />
               ))}
             </tbody>
           </table>

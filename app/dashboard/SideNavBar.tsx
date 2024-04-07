@@ -184,7 +184,7 @@ const SideNav: React.FC = () => {
       <div
         className={`my-1 px-3 flex justify-center items-center text-center bg-[#0b1642] h-20 `}
       >
-        <Link href="/">
+        <div>
           <Image
             src={isSidebarExpanded ? OtosumIcon : OIcon}
             alt={isSidebarExpanded ? "Otosum" : "Otosum"}
@@ -192,7 +192,7 @@ const SideNav: React.FC = () => {
             height={isSidebarExpanded ? 20 : 50}
             className="bg-transparent transition-all duration-300"
           />
-        </Link>{" "}
+        </div>
         {/* dashboard expent and collapse button */}
         <button
           onClick={toggleSidebar}
@@ -253,17 +253,17 @@ const SideNav: React.FC = () => {
               {
                 id: 1,
                 href: "/dashboard/employees-manage/employees",
-                label: "Employees",
+                label: "Employees List",
               },
               {
                 id: 2,
                 href: "/dashboard/employees-manage/add-employee",
-                label: "Add Employee",
+                label: "Add Employee ",
               },
               {
                 id: 3,
                 href: "/dashboard/employees-manage/suppliers",
-                label: "Suppliers",
+                label: "Suppliers List",
               },
               {
                 id: 4,
@@ -285,18 +285,13 @@ const SideNav: React.FC = () => {
             label="Calendar"
             isExpanded={isSidebarExpanded}
           />
-          <MenuItem
-            href="/dashboard/reports"
-            Icon={<BarChartBig />}
-            label="Reports"
-            isExpanded={isSidebarExpanded}
-          />
-          <MenuItem
+
+          {/* <MenuItem
             href="/dashboard/settings"
             Icon={<Settings />}
             label="Settings"
             isExpanded={isSidebarExpanded}
-          />
+          /> */}
           {/* ... other menu items ... */}
         </ul>
       </div>

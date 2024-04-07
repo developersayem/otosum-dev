@@ -93,7 +93,7 @@ const CashFlowChartCom: NextComponentType<NextPageContext, {}, Props> = (
   ];
 
   return (
-    <div style={{ width: "100%", height: "400px" }}>
+    <div style={{ height: "400px" }}>
       <div className="flex justify-start items-center mb-8 px-2">
         <div className="flex justify-start items-center px-3">
           <div className="w-5 h-1  bg-[#34d399]"></div>{" "}

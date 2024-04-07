@@ -1,15 +1,16 @@
 "use client";
-
 import type { NextComponentType, NextPageContext } from "next";
 import { usePosGlobalState } from "@/app/context/PosGlobalStateContext";
-import { useEffect, useState } from "react";
 import { useBusinessNameContext } from "@/app/context/businessNameContext";
 import SkeletonCom from "@/app/components/shared/SkeletonCom";
 import FoodCardCom from "./FoodCardCom";
+import { useEffect, useState } from "react";
+
 interface IImage {
   fileImage: string;
   fileName: string;
 }
+
 interface IProduct {
   businessName: string;
   img: IImage;
@@ -32,6 +33,7 @@ interface IProduct {
   promotionalEndDate?: Date;
   description: string;
 }
+
 interface Props {}
 
 const FoodItemsCom: NextComponentType<NextPageContext, {}, Props> = (
@@ -40,6 +42,7 @@ const FoodItemsCom: NextComponentType<NextPageContext, {}, Props> = (
   const { businessName } = useBusinessNameContext();
   const { posCategoryData, setPosCategoryData } = usePosGlobalState();
   const [products, setProducts] = useState<IProduct[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +50,7 @@ const FoodItemsCom: NextComponentType<NextPageContext, {}, Props> = (
         if (!businessName) {
           return;
         }
+        setIsLoading(true);
         const res = await fetch("/api/shop/products", {
           method: "POST",
           headers: {
@@ -67,10 +71,17 @@ const FoodItemsCom: NextComponentType<NextPageContext, {}, Props> = (
         setProducts(data);
       } catch (error) {
         console.error("Failed to fetch data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchData();
   }, [businessName, posCategoryData]);
+
+  if (isLoading) {
+    return <SkeletonCom />;
+  }
+
   return (
     <>
       <div className=" bg-white rounded-lg text-black grid grid-cols-3 gap-5 gap-y-3">

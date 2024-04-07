@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDatabase } from "../../../utils/db";
+import { connectToDatabase } from "../../utils/db";
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,11 +14,9 @@ export async function POST(req: NextRequest) {
 
     // Connect to the database
     const { db } = await connectToDatabase(body.businessName);
-    const collection = db.collection("employees");
-
-    // Filter products by category if provided
-    const query = {};
-    const result = await collection.find(query).toArray();
+    const collection = db.collection("sales");
+    const result = await collection.find({}).toArray();
+    // Return the products as a JSON response
     return NextResponse.json(result, { status: 200 });
 
     // Return the products as a JSON response

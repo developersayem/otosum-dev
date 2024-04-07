@@ -1,70 +1,122 @@
-import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
-import type { NextComponentType, NextPageContext } from "next";
-import Image from "next/image";
+// TableRow.tsx
+import { NextComponentType, NextPageContext } from "next";
+import { useEffect, useState } from "react";
 
-interface Props {}
+interface ISale {
+  _id: string;
+  saleId: number;
+  businessName: string;
+  paymentMethod: string;
+  name: string;
+  email: string;
+  role: string;
+  salesTime: string;
+  salesDate: string;
+  products: IProduct[];
+}
 
-const TableRow: NextComponentType<NextPageContext, {}, Props> = (
-  props: Props
-) => {
+interface IProduct {
+  businessName: string;
+  img: IImage;
+  productId: number;
+  productName: string;
+  category: string;
+  subCategory: string;
+  brand: string;
+  cost: number;
+  quantity: number;
+  discountType: string;
+  discount: number;
+  taxType: string;
+  tax: number;
+  price: number;
+  promotionalStatus: string | null;
+  promotionalPrice: number;
+  promotionalStartDate: string;
+  promotionalEndDate: string;
+  description: string;
+}
+
+interface IImage {
+  fileImage: string;
+  fileName: string;
+}
+
+interface Props {
+  sale: ISale;
+}
+
+const TableRow: NextComponentType<NextPageContext, {}, Props> = ({ sale }) => {
+  const { salesDate, name, products, paymentMethod } = sale;
+
+  const [total, setTotal] = useState<number>(0);
+  const [totalTax, setTotalTax] = useState<number>(0);
+  const [totalDiscount, setTotalDiscount] = useState<number>(0);
+
+  useEffect(() => {
+    let productTotalAmount = 0;
+    let totalTaxAmount = 0;
+    let totalDiscountAmount = 0;
+
+    products.forEach((product) => {
+      const {
+        quantity,
+        price,
+        discount,
+        discountType,
+        tax,
+        taxType,
+        promotionalPrice,
+        promotionalStatus,
+      } = product;
+
+      // Determine the price to use for calculation
+      const itemPrice =
+        promotionalStatus === "open" && promotionalPrice
+          ? promotionalPrice
+          : price;
+
+      // Calculate total cost for the product
+      let productTotal = itemPrice * quantity;
+
+      // Apply discount
+      if (discountType === "percentage") {
+        totalDiscountAmount += (itemPrice * quantity * discount) / 100;
+      } else {
+        totalDiscountAmount += discount * quantity;
+      }
+
+      // Apply tax
+      if (taxType === "percentage") {
+        totalTaxAmount += (productTotal * tax) / 100;
+      } else {
+        totalTaxAmount += tax * quantity;
+      }
+
+      // Add product total to the total amount
+      productTotalAmount += productTotal;
+    });
+
+    setTotal(productTotalAmount);
+    setTotalDiscount(totalDiscountAmount);
+    setTotalTax(totalTaxAmount);
+  }, [products]);
+
   return (
-    <>
-      <tr className="border border-[#F2F2F2] py-5 text-center">
-        <td>Dec 20, 2023</td>
-        <td className="text-center flex justify-center items-center">
-          <div className="flex items-center gap-3 text-center">
-            <div className="avatar">
-              <div className="mask mask-squircle w-12 h-12 text-center">
-                <Image
-                  src="https://handletheheat.com/wp-content/uploads/2023/04/homemade-burger-buns-SQUARE.jpg"
-                  alt="Avatar Tailwind CSS Component"
-                  width={100}
-                  height={100}
-                />
-              </div>
-            </div>
-            <h1>Burger-Bun</h1>
-          </div>
-        </td>
-        <td>$6500</td>
-        <td>Bkash</td>
-        <td>Pending</td>
-        <th>
-          <div className="dropdown ">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn m-1 bg-transparent border-0 hover:bg-transparent hover:text-green-400 shadow-transparent"
-            >
-              <MoreHorizontal />
-            </div>
-            <ul
-              tabIndex={0}
-              className="dropdown-content z-[1] menu p-2 shadow rounded-box w-fit bg-white"
-            >
-              <li className="hover:text-blue-500">
-                <a>
-                  {" "}
-                  <span>
-                    <Pencil />
-                  </span>
-                  Edit
-                </a>
-              </li>
-              <li className="hover:text-red-500">
-                <a>
-                  {" "}
-                  <span>
-                    <Trash2 />
-                  </span>
-                  Delete
-                </a>
-              </li>
-            </ul>
-          </div>
-        </th>
-      </tr>
-    </>
+    <tr className="border border-[#F2F2F2] text-start capitalize">
+      <td>{salesDate}</td>
+      <td className="">
+        <div className="flex items-center gap-2 justify-start text-start">
+          <h1>{products.map((product) => product.productName).join(", ")}</h1>
+        </div>
+      </td>
+      <td>{name}</td>
+      <td>{products.map((product) => product.quantity).join(", ")}</td>
+      <td>${totalDiscount.toFixed(2)}</td>
+      <td>${totalTax.toFixed(2)}</td>
+      <td>${(total + totalTax - totalDiscount).toFixed(2)}</td>
+      <td>{paymentMethod}</td>
+    </tr>
   );
 };
 

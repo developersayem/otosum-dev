@@ -22,7 +22,7 @@ export default function RootLayout({
       <BusinessNameContextProvider>
         <GlobalStateProvider>
           <PosGlobalStateProvider>
-            <body className={`${inter.className} `}>{children}</body>
+            <body>{children}</body>
           </PosGlobalStateProvider>
         </GlobalStateProvider>
       </BusinessNameContextProvider>

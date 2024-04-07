@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
 
     // Connect to the database
     const { db } = await connectToDatabase(body.businessName);
-    const collection = db.collection("employees");
+    const collection = db.collection("suppliers");
 
     // Filter products by category if provided
     const query = {};

@@ -31,7 +31,6 @@ const TableRow: NextComponentType<NextPageContext, {}, Props> = ({
   employee,
 }) => {
   const {
-    img: { fileImage },
     firstName,
     lastName,
     email,
@@ -40,28 +39,28 @@ const TableRow: NextComponentType<NextPageContext, {}, Props> = ({
     shopName,
     joiningDate,
     address,
+    img,
   } = employee;
+
   return (
     <>
       <tr className="border border-[#F2F2F2] py-5">
         <td>
           <div className="flex items-center gap-3">
             <div className="avatar">
-              <div className="mask mask-squircle w-12 h-12">
+              <div className="mask rounded-lg w-12 h-12 ">
                 <Image
-                  src={fileImage}
-                  alt="Avatar Tailwind CSS Component"
+                  src={img?.fileImage || "/placeholder-image.jpg"} // Use a placeholder image or handle the case when fileImage is missing
+                  alt={`Image of ${firstName} ${lastName}`}
                   width={100}
                   height={100}
                 />
               </div>
             </div>
-            <div>
-              <div className="font-bold capitalize">
-                {firstName} {lastName}
-              </div>
-              <div className="text-sm opacity-50">{address}</div>
+            <div className="font-bold capitalize">
+              {firstName} {lastName}
             </div>
+            <div className="text-sm opacity-50">{address}</div>
           </div>
         </td>
         <td className="capitalize">{role}</td>

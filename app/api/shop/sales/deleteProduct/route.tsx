@@ -11,19 +11,24 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-
     // Connect to the database
     const { db } = await connectToDatabase(body.businessName);
-    const collection = db.collection("employees");
+    const collection = db.collection("products");
 
-    // Filter products by category if provided
-    const query = {};
-    const result = await collection.find(query).toArray();
-    return NextResponse.json(result, { status: 200 });
-
-    // Return the products as a JSON response
+    if (body.businessName) {
+      const result = await collection.deleteOne({
+        productId: body.id,
+      });
+      // Return the products as a JSON response
+      return NextResponse.json(result, { status: 200 });
+    } else {
+      return NextResponse.json(
+        { message: "Product not found" },
+        { status: 404 }
+      );
+    }
   } catch (error) {
-    console.error("Error:", error);
+    console.error(error);
     return NextResponse.json(
       { message: "Internal Server Error" },
       { status: 500 }

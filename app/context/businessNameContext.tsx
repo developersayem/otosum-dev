@@ -30,6 +30,13 @@ const BusinessNameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
+  useEffect(() => {
+    const name = localStorage.getItem("businessName");
+    if (name) {
+      setBusinessName(name);
+    }
+  }, []);
+
   const value: IBusinessName = {
     businessName,
     setBusinessName,

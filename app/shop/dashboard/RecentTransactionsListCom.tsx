@@ -44,16 +44,6 @@ const RecentTransactionsListCom: NextComponentType<
             </thead>
             <tbody className="text-black text-md border rounded-lg border-[#F2F2F2]">
               <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
             </tbody>
           </table>
         </div>

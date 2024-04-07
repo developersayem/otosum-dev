@@ -1,27 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "../../../utils/db";
 
+interface ICategory {
+  businessName: string;
+  id: number;
+  value: string;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     // Validate the request body
     if (!body.businessName) {
       return NextResponse.json(
-        { message: "Business Name is required" },
+        { message: "Business Name and Category are required" },
         { status: 400 }
       );
     }
 
     // Connect to the database
     const { db } = await connectToDatabase(body.businessName);
-    const collection = db.collection("employees");
+    const collection = db.collection("product-categories");
 
-    // Filter products by category if provided
-    const query = {};
-    const result = await collection.find(query).toArray();
-    return NextResponse.json(result, { status: 200 });
+    // get all categories
+    const categories = await collection.find().toArray();
 
-    // Return the products as a JSON response
+    return NextResponse.json(categories, { status: 201 });
   } catch (error) {
     console.error("Error:", error);
     return NextResponse.json(

@@ -6,37 +6,24 @@ interface FileData {
   fileName: string;
   fileImage: string;
 }
-interface IShop {
-  businessName: string;
-  shopId: number;
-  name: string;
-  address: string;
-  type: string;
-  img: FileData[];
-}
+interface IShop {}
 interface Props {
-  store: IShop;
-  todaySales: number;
-  onlineSales: number;
-  offlineSales: number;
+  name: string;
+  img: FileData;
 }
 
 const InfoCardCom: NextComponentType<NextPageContext, {}, Props> = ({
-  store,
-  todaySales,
-  onlineSales,
-  offlineSales,
+  name,
+  img,
 }: Props) => {
-  const {
-    img: { fileImage },
-    name,
-  } = store;
+  // const { img, name } = store;
+  // const fileImage = img.length > 0 ? img[0].fileImage : "";
   return (
-    <Link href="/shop/dashboard">
+    <Link href="/shop/pos/order">
       <div className="card  bg-white shadow-xl m-5 w-[250px] h-[380px]">
         <figure className="px-5 pt-5">
           <Image
-            src={fileImage}
+            src={img?.fileImage}
             className=" w-full h-full object-fill aspect-square rounded-lg shadow-lg	"
             alt="alt"
             width={215}
@@ -52,7 +39,7 @@ const InfoCardCom: NextComponentType<NextPageContext, {}, Props> = ({
               <FaArrowRightLong />
             </span>
           </div>
-          <div className="text-[#241F20] font-bold w-full flex justify-between items-center">
+          {/* <div className="text-[#241F20] font-bold w-full flex justify-between items-center">
             <span>Today Sales:</span>
             <span>${todaySales}</span>
           </div>
@@ -63,7 +50,7 @@ const InfoCardCom: NextComponentType<NextPageContext, {}, Props> = ({
           <div className="text-[#6C696A] font-bold w-full flex justify-between items-center">
             <span>Offline Sales:</span>
             <span>${offlineSales}</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </Link>

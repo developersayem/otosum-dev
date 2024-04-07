@@ -5,44 +5,43 @@ interface FileData {
   fileName: string;
   fileImage: string;
 }
-interface IEmployee {
+interface ISupplier {
   businessName: string;
-  employeeId: number;
+  supplierId: number;
   firstName: string;
   lastName: string;
+  gender: string;
+  company: string;
   email: string;
   phone: string;
-  branch: string;
   role: string;
-  shopName: string;
   address: string;
   state: string;
   status: string;
-  joiningDate: string;
   city: string;
   postalCode: string;
-  password: string;
+  country: string;
   img: FileData[];
 }
 
-async function generateEmployeeId(db: any): Promise<number> {
+async function generateSupplierId(db: any): Promise<number> {
   // Find the last used employeeId from the database
-  const collection = db.collection("employees");
+  const collection = db.collection("suppliers");
 
-  const lastEmployeeIdDoc = await collection.findOne(
+  const lastSupplierIdDoc = await collection.findOne(
     {},
-    { sort: { employeeId: -1 } }
+    { sort: { supplierId: -1 } }
   );
 
-  // Get the lastEmployeeId or default to 0 if it's not a valid number
-  const lastEmployeeId = isNaN(lastEmployeeIdDoc?.employeeId)
+  // Get the lastSupplier or default to 0 if it's not a valid number
+  const lastSupplierId = isNaN(lastSupplierIdDoc?.supplierId)
     ? 0
-    : lastEmployeeIdDoc.employeeId;
+    : lastSupplierIdDoc.supplierId;
 
-  // Increment the last employeeId to generate a new one
-  const newEmployeeId = lastEmployeeId + 1;
+  // Increment the last SupplierId to generate a new one
+  const newSupplierId = lastSupplierId + 1;
 
-  return newEmployeeId;
+  return newSupplierId;
 }
 
 export async function POST(req: NextRequest) {
@@ -51,13 +50,13 @@ export async function POST(req: NextRequest) {
 
     if (!body.businessName || !body.email) {
       return NextResponse.json(
-        { message: "Title, Business Name, and Category are required" },
+        { message: "Title, Email required" },
         { status: 400 }
       );
     }
     // Connect to the database
     const { db } = await connectToDatabase(body.businessName);
-    const collection = db.collection("employees");
+    const collection = db.collection("suppliers");
     // Check if the product already exists in the database
     const existingEmployee = await collection.findOne({
       email: body.email,
@@ -67,32 +66,31 @@ export async function POST(req: NextRequest) {
     // If the product already exists, return an error
     if (existingEmployee) {
       return NextResponse.json(
-        { message: "Employee already exists" },
+        { message: "Supplier already exists" },
         { status: 400 }
       );
     }
 
     // Generate a new Employee ID
-    const employeeId = await generateEmployeeId(db);
+    const supplierId = await generateSupplierId(db);
 
     // Create a new Employee
-    const newEmployee: IEmployee = {
-      employeeId: employeeId,
+    const newEmployee: ISupplier = {
+      supplierId: supplierId,
       businessName: body.businessName,
       firstName: body.firstName,
       lastName: body.lastName,
       email: body.email,
       phone: body.phone,
-      branch: body.branch,
-      role: body.role,
-      shopName: body.shopName,
+      gender: body.gender,
       address: body.address,
       state: body.state,
       status: body.status,
-      joiningDate: body.joiningDate,
+      role: "supplier",
       city: body.city,
       postalCode: body.postalCode,
-      password: body.password,
+      company: body.company,
+      country: body.country,
       img: body.img,
     };
 

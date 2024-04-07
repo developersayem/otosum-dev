@@ -1,8 +1,67 @@
+"use client";
+
+/* eslint-disable react-hooks/rules-of-hooks */
 import { FaChevronDown, FaPlus } from "react-icons/fa";
 import TableRow from "./TableRow";
 import Link from "next/link";
-
+import SkeletonCom from "@/app/components/shared/SkeletonCom";
+import { useBusinessNameContext } from "@/app/context/businessNameContext";
+import { useEffect, useState } from "react";
+interface FileData {
+  fileName: string;
+  fileImage: string;
+}
+interface IEmployee {
+  businessName: string;
+  employeeId: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  branch: string;
+  role: string;
+  address: string;
+  state: string;
+  shopName: string;
+  status: string;
+  joiningDate: string;
+  city: string;
+  postalCode: string;
+  password: string;
+  img: FileData;
+}
 const page = () => {
+  const { businessName } = useBusinessNameContext();
+  const [employees, setEmployees] = useState<IEmployee[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!businessName) {
+          return;
+        }
+        const res = await fetch("/api/dashboard/employees-manage/employees", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ businessName }),
+        });
+
+        if (!res.ok) {
+          console.error("Failed to fetch data:", res.status);
+          return;
+        }
+
+        const data = await res.json();
+        console.log(data);
+        setEmployees(data);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      }
+    };
+    fetchData();
+  }, [businessName]);
   return (
     <div className="min-h-[100vh] w-full">
       {/*Statistics SECTION START */}
@@ -27,31 +86,25 @@ const page = () => {
           <div className="bg-gradient-to-r from-[#454CEA] to-[#5596CF] max-h-28 max-w-72 p-5 flex justify-start items-center rounded-xl text-white font-bold">
             <span>
               <h1 className="text-lg">Total Employees</h1>
-              <p className="text-2xl">121</p>
-            </span>
-          </div>
-          <div className="bg-gradient-to-r from-[#F85900] to-[#FAC250] max-h-28 max-w-72 p-5 flex justify-start items-center rounded-xl text-white font-bold">
-            <span>
-              <h1 className="text-lg">Today Employees</h1>
-              <p className="text-2xl">86</p>
+              <p className="text-2xl">{employees.length}</p>
             </span>
           </div>
           <div className="bg-gradient-to-r from-[#DC1818] to-[#FF6565] max-h-28 max-w-72 p-5 flex justify-start items-center rounded-xl text-white font-bold">
             <span>
               <h1 className="text-lg">Today Absent</h1>
-              <p className="text-2xl">21</p>
+              <p className="text-2xl">0</p>
             </span>
           </div>
           <div className="bg-gradient-to-r from-[#3AD912] to-[#1A8100] max-h-28 max-w-72 p-5 flex justify-start items-center rounded-xl text-white font-bold">
             <span>
               <h1 className="text-lg">Today Join</h1>
-              <p className="text-2xl">12</p>
+              <p className="text-2xl">{employees.length}</p>
             </span>
           </div>
           <div className="bg-gradient-to-r from-[#DC1818] to-[#FF6565] max-h-28 max-w-72 p-5 flex justify-start items-center rounded-xl text-white font-bold">
             <span>
               <h1 className="text-lg">Today Left</h1>
-              <p className="text-2xl">12</p>
+              <p className="text-2xl">0</p>
             </span>
           </div>
         </div>
@@ -70,22 +123,7 @@ const page = () => {
                 Add Employees
               </button>
             </Link>
-            <div className="px-5 md:mt-4">
-              {/* !NEED DROPDOWN CODE */}
-
-              {/* <div className="relative w-full lg:max-w-sm">
-                <select className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-black font-bold">
-                  <option className="p-2 border-0 ">All Stores</option>
-                  <option className="p-2 border-0 ">Ramai Mall</option>
-                  <option className="p-2 border-0 ">Gyu-Kaku</option>
-                  <option className="p-2 border-0 ">Urban Harmony</option>
-                  <option className="p-2 border-0 ">Brooklyn Fare</option>
-                </select>
-                <div className="relative bottom-[1.8rem] left-[7.7rem]">
-                  <FaChevronDown />
-                </div>
-              </div> */}
-            </div>
+            <div className="px-5 md:mt-4"></div>
           </div>
         </div>
         <div>
@@ -96,27 +134,20 @@ const page = () => {
                 <tr>
                   <th>Name</th>
                   <th>Position</th>
-                  <th>Department</th>
+                  <th>Shop Name</th>
                   <th>Status</th>
                   <th>Joining Date</th>
                   <th>Email</th>
                   <th>Profile</th>
                 </tr>
               </thead>
-              <tbody className="text-black text-md border rounded-lg border-[#F2F2F2]">
-                <TableRow />
-                <TableRow />
-                <TableRow />
-                <TableRow />
-                <TableRow />
-                <TableRow />
-                <TableRow />
-                <TableRow />
-                <TableRow />
-                <TableRow />
-                <TableRow />
+              <tbody className="text-black text-md border rounded-lg border-[#F2F2F2] ">
+                {employees.map((employee) => (
+                  <TableRow key={employee.employeeId} employee={employee} />
+                ))}
               </tbody>
             </table>
+            {employees.length === 0 && <SkeletonCom />}
           </div>
         </div>
       </div>

@@ -68,7 +68,6 @@ const PosGlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({
     if (existingItemIndex !== -1) {
       // If the item already exists, increase its quantity
       increaseQuantity(item.productId);
-      console.log(selectedItemsArray);
     } else {
       // If the item does not exist, add it to the selected items array
       setSelectedItemsArray((prevItems) => [...prevItems, item]);

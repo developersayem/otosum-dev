@@ -7,18 +7,26 @@ import Link from "next/link";
 import { X, Grip, ShoppingCart } from "lucide-react";
 import { usePathname } from "next/navigation";
 import CalculatorLayoutCom from "../components/Calculator/CalculatorLayoutCom";
+import { useState, useEffect } from "react";
 
 const TopNavBar = () => {
   const path = usePathname();
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const [user, setUser] = useState({ name: "", role: "" });
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
   return (
     <div
       className={`navbar flex justify-end items-center px-5 bg-white mb-5 h-20 `}
     >
-      {path === "/shop/pos" ? (
+      {path === "/shop/pos/order" ? (
         <CalculatorLayoutCom />
       ) : (
-        <Link href="/shop/pos" className="mr-5">
+        <Link href="/shop/pos/order" className="mr-5">
           <button className="btn border-0 rounded-xl text-gl hover:scale-105 text-white bg-gradient-to-r from-[#00FC44] to-[#438FFD]">
             <span className="text-lg font-extrabold">
               <ShoppingCart />
@@ -57,7 +65,7 @@ const TopNavBar = () => {
             </div>
           </div>
         </div>
-        <ul
+        {/* <ul
           tabIndex={0}
           className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-white rounded-box w-52"
         >
@@ -73,7 +81,7 @@ const TopNavBar = () => {
           <li className="hover:text-black hover:bg-gradient-to-r hover:from-[#4391fd2b] hover:to-[#00fc4329] rounded-full">
             <a>Logout</a>
           </li>
-        </ul>
+        </ul> */}
       </div>
     </div>
   );

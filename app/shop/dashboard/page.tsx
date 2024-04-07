@@ -23,22 +23,22 @@ const page = () => {
           <InfoCardCom
             label="Sales"
             icon={TotalSalesIcon}
-            amount={3492.0}
-            lastAmount={59.75}
+            amount={0}
+            lastAmount={0}
             bgGradient="text-white bg-gradient-to-r from-[#454CEA] to-[#5596CF]"
           />
           <InfoCardCom
             label="Total Expenses"
             icon={TotalSalesIcon}
-            amount={3492.0}
-            lastAmount={59.75}
+            amount={0}
+            lastAmount={0}
             bgGradient="text-white bg-gradient-to-r from-[#F85900] to-[#FAC250]"
           />
           <InfoCardCom
             label="Total Revenue"
             icon={TotalSalesIcon}
-            amount={3492.0}
-            lastAmount={59.75}
+            amount={0}
+            lastAmount={0}
             bgGradient="text-white bg-gradient-to-r from-[#DC1818] to-[#FF6565]"
           />
         </div>

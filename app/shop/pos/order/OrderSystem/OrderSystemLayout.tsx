@@ -1,58 +1,113 @@
-import type { NextComponentType, NextPageContext } from "next";
+"use client";
+
+import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { useBusinessNameContext } from "@/app/context/businessNameContext";
 import { usePosGlobalState } from "../../../../context/PosGlobalStateContext";
 import SelectedItemsCom from "./SelectedItemsCom/SelectedItemsCom";
-import { ChevronDown } from "lucide-react";
+import { Banknote, CreditCard, ReceiptText } from "lucide-react";
+import { NextComponentType, NextPageContext } from "next";
 
 interface Props {}
 
 const OrderSystemLayout: NextComponentType<NextPageContext, {}, Props> = (
   props: Props
 ) => {
+  const { businessName } = useBusinessNameContext();
+  const [paymentMethod, setPaymentMethod] = useState("cash");
   const { selectedItemsArray, clearSelectedItems } = usePosGlobalState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState({ name: "", role: "",email:"" });
 
-  const handleCheckout = () => {
-    console.log("checkout:", selectedItemsArray);
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  const handleCheckout = async (e: any) => {
+    e.preventDefault();
+    setIsLoading(true); // Set loading state to true when starting fetch
+
+    try {
+      const response = await fetch("/api/shop/sales/add-sale", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          businessName: businessName,
+          products: selectedItemsArray,
+          paymentMethod: paymentMethod,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("Product added successfully");
+      } else {
+        toast.error("An error occurred while adding product");
+      }
+    } catch (error) {
+      console.error("An error occurred while adding product:", error);
+    } finally {
+      setIsLoading(false); // Set loading state to false when fetch completes
+    }
   };
-  console.log("Array:", selectedItemsArray);
 
   return (
     <div className="bg-white rounded-lg text-black p-5">
+      <Toaster />
       <SelectedItemsCom />
       <div>
-        <div className="grid grid-cols-2 gap-4 items-center">
-          <h1 className="text-base font-bold">Select table to serve</h1>
-          <div className="flex-none relative py-2">
-            <button className="flex flex-row justify-between w-full  px-2 py-3 text-gray-700 bg-white border-2 border-[#BBBABA] rounded-md  focus:outline-none focus:border-black">
-              <span className="select-none transition-all duration-300 delay-75">
-                Table-1
-              </span>
-              <ChevronDown />
-            </button>
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4 items-center">
-          <h1 className="text-base font-bold">Select table to serve</h1>
-          <div className="flex-none relative py-2">
-            <button className="flex flex-row justify-between w-full  px-2 py-3 text-gray-700 bg-white border-2 border-[#BBBABA] rounded-md  focus:outline-none focus:border-black">
-              <span className="select-none transition-all duration-300 delay-75">
-                Table-1
-              </span>
-              <ChevronDown />
-            </button>
-          </div>
+        <div className={`grid grid-cols-3 gap-1 p-5 text-lg font-bold `}>
+          <button
+            onClick={() => setPaymentMethod("cash")}
+            className={`text-green-500 flex border p-5 justify-center items-center gap-1 rounded-lg ${
+              paymentMethod === "cash" ? "bg-green-500 text-white" : ""
+            }`}
+          >
+            <Banknote />
+            Cash
+          </button>
+          <button
+            onClick={() => setPaymentMethod("card")}
+            className={`text-green-500 flex border p-5 justify-center items-center gap-1 rounded-lg ${
+              paymentMethod === "card" ? "bg-green-500 text-white" : ""
+            }`}
+          >
+            <CreditCard />
+            Card
+          </button>
+          <button
+            onClick={() => setPaymentMethod("cheque")}
+            className={`text-green-500 flex border p-5 justify-center items-center gap-1 rounded-lg ${
+              paymentMethod === "cheque" ? "bg-green-500 text-white" : ""
+            }`}
+          >
+            <ReceiptText />
+            Cheque
+          </button>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <button
-            onClick={handleCheckout}
+            onClick={clearSelectedItems}
             className="btn bg-transparent rounded-lg py-0 px-8 border-2 hover:scale-105 border-[#BBBABA] form-submit text-black text-base hover:bg-transparent"
           >
             Clear
           </button>
           <button
-            onClick={clearSelectedItems}
-            className="btn border-0 rounded-lg text-base hover:scale-105 text-white bg-gradient-to-r from-[#00FC44] to-[#438FFD]"
+            type="button"
+            onClick={handleCheckout}
+            className={`btn border-0 rounded-lg text-base hover:scale-105 text-white bg-gradient-to-r from-[#00FC44] to-[#438FFD] ${
+              isLoading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={isLoading}
           >
-            Checkout
+            {isLoading ? "Processing..." : "Checkout"}
           </button>
         </div>
       </div>

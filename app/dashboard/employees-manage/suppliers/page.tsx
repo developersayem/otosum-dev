@@ -1,13 +1,70 @@
+"use client";
+
+/* eslint-disable react-hooks/rules-of-hooks */
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa6";
 import { FaChevronDown } from "react-icons/fa";
 import TableRow from "./TableRow";
-
+import { useEffect, useState } from "react";
+import { useBusinessNameContext } from "@/app/context/businessNameContext";
+import SkeletonCom from "@/app/components/shared/SkeletonCom";
+interface FileData {
+  fileName: string;
+  fileImage: string;
+}
+interface ISupplier {
+  businessName: string;
+  supplierId: number;
+  firstName: string;
+  lastName: string;
+  gender: string;
+  company: string;
+  email: string;
+  phone: string;
+  role: string;
+  address: string;
+  state: string;
+  status: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  img: FileData;
+}
 const page = () => {
+  const { businessName } = useBusinessNameContext();
+  const [suppliers, setSuppliers] = useState<ISupplier[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!businessName) {
+          return;
+        }
+        const res = await fetch("/api/dashboard/employees-manage/suppliers", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ businessName }),
+        });
+
+        if (!res.ok) {
+          console.error("Failed to fetch data:", res.status);
+          return;
+        }
+
+        const data = await res.json();
+        setSuppliers(data);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      }
+    };
+    fetchData();
+  }, [businessName]);
   return (
     <div className="p-5 m-5 bg-white rounded-2xl w-ful">
       <div className="flex justify-between items-center mb-5 p-5">
-        <h1 className="mb-5 text-black text-2xl font-bold">Suppliers List</h1>
+        <h1 className="mb-5 text-black text-2xl font-bold">Supplier List</h1>
         <div className="flex justify-center items-center">
           <Link href="/dashboard/employees-manage/add-supplier">
             <button className="btn border-0 rounded-xl text-gl  text-white bg-gradient-to-r from-[#00FC44] to-[#438FFD]">
@@ -49,20 +106,13 @@ const page = () => {
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody className="text-black text-md border rounded-lg border-[#F2F2F2]">
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
+            <tbody className="text-black text-md border rounded-lg border-[#F2F2F2] ">
+              {suppliers.map((supplier) => (
+                <TableRow key={supplier.supplierId} supplier={supplier} />
+              ))}
             </tbody>
           </table>
+          {suppliers.length === 0 && <SkeletonCom />}
         </div>
       </div>
     </div>

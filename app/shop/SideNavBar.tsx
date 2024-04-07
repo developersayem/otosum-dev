@@ -181,8 +181,6 @@ const SideNav: React.FC = () => {
     { id: 1, href: "/shop/pos/order", label: "Order" },
     { id: 2, href: "/shop/pos/loyalty", label: "Loyalty" },
     { id: 3, href: "/shop/pos/discount", label: "Discount" },
-    { id: 4, href: "/shop/pos/points", label: "Points" },
-    { id: 4, href: "/shop/pos/numpad", label: "Numpad" },
   ];
   const productsItems: ItemProps[] = [
     { id: 1, href: "/shop/products/products-list", label: "Products List" },
@@ -194,9 +192,8 @@ const SideNav: React.FC = () => {
     { id: 2, href: "", label: "Add Products" },
   ];
   const salesItems: ItemProps[] = [
-    { id: 1, href: "/shop/sales/offline-sales", label: "Offline Sales" },
-    { id: 2, href: "/shop/sales/online-sales", label: "Online Sales" },
-    { id: 3, href: "/shop/sales/returns", label: "Returns" },
+    { id: 1, href: "/shop/sales/sales-list", label: "Sales List" },
+    // { id: 2, href: "/shop/sales/returns", label: "Returns" },
   ];
   const expensesItems: ItemProps[] = [
     { id: 1, href: "/shop/expenses/expenses-list", label: "Expenses List" },
@@ -215,7 +212,7 @@ const SideNav: React.FC = () => {
       <div
         className={`my-1 px-3 flex justify-center items-center text-center bg-[#0b1642] h-20 `}
       >
-        <div onClick={toggleSidebar}>
+        <div>
           <Image
             src={isSidebarExpanded ? OtosumIcon : OIcon}
             alt={isSidebarExpanded ? "Otosum" : "Otosum"}
@@ -224,7 +221,21 @@ const SideNav: React.FC = () => {
             className="bg-transparent transition-all duration-300"
           />
         </div>
-        {/* dashboard expent and collapse button */}
+        {/* dashboard expend and collapse button */}
+        <button
+          onClick={toggleSidebar}
+          className={`fixed ${
+            isSidebarExpanded ? "left-22" : "left-3.7"
+          } bottom-5 transition-all duration-300`}
+        >
+          <div className="bg-[#5c6280] w-10 h-10 rounded-full flex justify-center items-center">
+            {isSidebarExpanded ? (
+              <FaChevronLeft className="text-white bg-transparent" />
+            ) : (
+              <FaChevronRight className="text-white bg-transparent" />
+            )}
+          </div>
+        </button>
       </div>
       {isSidebarExpanded && (
         <h1 className="py-5 mt-5 px-5 text-md bg-transparent text-[#9A9898] transition-all duration-300 uppercase">
@@ -234,12 +245,12 @@ const SideNav: React.FC = () => {
       <div className="transition-all duration-300">
         <ul>
           {/* Pass isExpanded to MenuItem component */}
-          <MenuItem
+          {/* <MenuItem
             href="/shop/dashboard"
             Icon={<LayoutDashboard />}
             label="Dashboard"
             isExpanded={isSidebarExpanded}
-          />
+          /> */}
           <DropDownItem
             Icon={<Box />}
             label="POS"
@@ -284,28 +295,24 @@ const SideNav: React.FC = () => {
             isExpanded={isSidebarExpanded}
             items={expensesItems}
           />
-          <DropDownItem
-            Icon={<UsersRound />}
-            label="Employee Manage"
-            isExpanded={isSidebarExpanded}
-          />
+
           <MenuItem
-            href="/dashboard/Calendar"
+            href="/shop/calendar"
             Icon={<CalendarDays />}
             label="Calendar"
             isExpanded={isSidebarExpanded}
           />
-          <DropDownItem
+          {/* <DropDownItem
             Icon={<BarChartBig />}
             label="Reports"
             isExpanded={isSidebarExpanded}
-          />
-          <MenuItem
+          /> */}
+          {/* <MenuItem
             href="/dashboard/settings"
             Icon={<Settings />}
             label="Settings"
             isExpanded={isSidebarExpanded}
-          />
+          /> */}
           {/* ... other menu items ... */}
         </ul>
       </div>

@@ -4,14 +4,14 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center  p-24">
       <h1 className="mb-5">Otosum</h1>
-      <Link href="/dashboard">
+      <Link href="/auth/sign-in">
         <button className="btn rounded-xl text-xl font-bold m-2">
-          Go client Dashboard
+          Sign In
         </button>
       </Link>
-      <Link href="/shop/dashboard">
+      <Link href="/auth/sign-up">
         <button className="btn rounded-xl text-xl font-bold m-2">
-          Go shop Dashboard
+          Sign up
         </button>
       </Link>
     </main>

@@ -27,7 +27,14 @@ const Page = () => {
   const [endDate, setEndDate] = useState<string>("");
   const [selectedFile, setSelectedFile] = useState<FileData | null>(null); // Change here
   const { businessName } = useBusinessNameContext();
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const [user, setUser] = useState({ name: "", role: "", email: "" });
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   // Define form submit handler
   const addProductHandler = async (

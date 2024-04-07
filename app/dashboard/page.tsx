@@ -16,7 +16,7 @@ interface IShop {
   name: string;
   address: string;
   type: string;
-  img: FileData[];
+  img: FileData;
 }
 const page = () => {
   const { businessName } = useBusinessNameContext();
@@ -40,7 +40,6 @@ const page = () => {
           console.error("Failed to fetch data:", res.status);
           return;
         }
-
         const data = await res.json();
         setStores(data);
       } catch (error) {
@@ -58,22 +57,22 @@ const page = () => {
           <InfoCardCom
             label="Sales"
             icon={TotalSalesIcon}
-            amount={3492.0}
-            lastAmount={59.75}
+            amount={0}
+            lastAmount={0}
             bgGradient="text-white bg-gradient-to-r from-[#454CEA] to-[#5596CF]"
           />
           <InfoCardCom
             label="Total Expenses"
             icon={TotalSalesIcon}
-            amount={3492.0}
-            lastAmount={59.75}
+            amount={0}
+            lastAmount={0}
             bgGradient="text-white bg-gradient-to-r from-[#F85900] to-[#FAC250]"
           />
           <InfoCardCom
             label="Total Revenue"
             icon={TotalSalesIcon}
-            amount={3492.0}
-            lastAmount={59.75}
+            amount={0}
+            lastAmount={0}
             bgGradient="text-white bg-gradient-to-r from-[#DC1818] to-[#FF6565]"
           />
         </div>
@@ -85,10 +84,8 @@ const page = () => {
           {stores.map((store) => (
             <StoreCardCom
               key={store.shopId}
-              store={store}
-              todaySales={0.0}
-              onlineSales={0.0}
-              offlineSales={0.0}
+              name={store.name}
+              img={store.img}
             />
           ))}
         </div>

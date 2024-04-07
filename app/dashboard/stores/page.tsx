@@ -15,7 +15,7 @@ interface IShop {
   name: string;
   address: string;
   type: string;
-  img: FileData[];
+  img: FileData;
 }
 const page = () => {
   const { businessName } = useBusinessNameContext();
@@ -55,10 +55,8 @@ const page = () => {
           {stores.map((store) => (
             <StoreCardCom
               key={store.shopId}
-              store={store}
-              todaySales={0.0}
-              onlineSales={0.0}
-              offlineSales={0.0}
+              name={store.name}
+              img={store.img}
             />
           ))}
         </div>
